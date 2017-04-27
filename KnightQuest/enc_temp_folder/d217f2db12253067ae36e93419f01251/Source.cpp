@@ -1631,9 +1631,7 @@ void NameInput() {
 	cleardevice();
 	if (FreeVar == 1) {
 		GameType = FreeVar;
-
 		cout << "Name And Then Class Name:" << endl;
-		/// THIS
 		cin >> Player1.Name;
 		if (Player1.Name == "Odax") { player1Color = 10; }
 		cin >> FreeClass; PlayerAndClassSetUp(1);
@@ -1641,7 +1639,7 @@ void NameInput() {
 		Player3.Alive = false;
 		Player4.Alive = false;
 	}
-	if (FreeVar == 2){// || FreeVar == 3 || FreeVar == 4) {
+	if (FreeVar == 2 || FreeVar == 3 || FreeVar == 4) {
 		GameType = FreeVar;
 		cout << "Name And Then Class Name:" << endl;
 		cin >> Player1.Name;
