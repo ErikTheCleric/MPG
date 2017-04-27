@@ -724,14 +724,14 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 5: break;
 	} break; // Player4
 	case 5: switch (AttackMoveNumber) {
-	case 1: 
+	case 1:
 		if (Enemy.Class == "Goblin King") {}
-	
-	
-	
-	
+
+
+
+
 	}
-		break; // Enemy
+			break; // Enemy
 	}
 }
 int AttackTargetAndAttack(int PLAYERS) {
@@ -1663,13 +1663,13 @@ void EndTurnAffects() {
 }
 void DeadAliveLossWin(string Player1Health, string Player2Health, string Player3Health, string Player4Health, int GameType, bool Endturn) {
 	// handles the death and makes the game end
-	
+
 	if (Player1.ThornInTheSide == true) { Player1.HealthInt--; theConversionFromIntToString(Player1.HealthInt, Player1.Health); }
 	if (Player2.ThornInTheSide == true) { Player2.HealthInt--; theConversionFromIntToString(Player2.HealthInt, Player2.Health); }
 	if (Player3.ThornInTheSide == true) { Player3.HealthInt--; theConversionFromIntToString(Player3.HealthInt, Player3.Health); }
 	if (Player4.ThornInTheSide == true) { Player4.HealthInt--; theConversionFromIntToString(Player4.HealthInt, Player4.Health); }
 	if (Enemy.ThornInTheSide == true) { Enemy.HealthInt--; theConversionFromIntToString(Enemy.HealthInt, Enemy.Health); }
-	
+
 
 	if (Player1.Health == "0") { Player1.Alive = false; }
 	else { Player1.Alive = true; }
@@ -1705,13 +1705,14 @@ void DeadAliveLossWin(string Player1Health, string Player2Health, string Player3
 	}
 }
 
-int ClearStats() { 
+int ClearStats() {
 	//Clears all stats for the characters
 	Player1.Alive = false; Player2.Alive = false; Player3.Alive = false; Player4.Alive = false; Enemy.Alive = false;
 	Player1.AttackInt, Player2.AttackInt, Player3.AttackInt, Player4.AttackInt, Enemy.AttackInt = 0;
 	Player1.Class, Player2.Class, Player3.Class, Player4.Class, Enemy.Class = " ";
 	GameStillGoing = true;
-	return 0; }
+	return 0;
+}
 
 int main() {
 #pragma region SetUp
