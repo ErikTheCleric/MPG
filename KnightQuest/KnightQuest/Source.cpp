@@ -37,7 +37,6 @@
 #include <windows.h>
 #include <cstdlib>
 #include <stdlib.h>
-#include <conio.h>
 #include <string>
 #include <iomanip>
 #include <ctime>
@@ -46,6 +45,8 @@
 #include <graphics.h>
 #include <cmath>
 #include <winbgi.cpp>
+#include "VirtualKeys.h"
+
 using namespace std;
 void gr_Start(int &GrDriver, int&GrMode, int&ErrorCode) {
 	//set the graphics driver
@@ -74,7 +75,7 @@ struct PlayerStruct {
 	string Power = "6";
 	string Health = "100";
 	int HealthInt = 100;
-	int SaveHealth;
+	int SaveHealth; bool saveHealthTurn;
 	int SetHealth = 100;
 	string Attack = "6";
 	int AttackInt = 6;
@@ -634,7 +635,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 			case 2: Player2.HealthInt = Player2.HealthInt - Player1.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
 			case 3: Player3.HealthInt = Player3.HealthInt - Player1.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
 			case 4: Player4.HealthInt = Player4.HealthInt - Player1.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
-			case 5: Enemy.HealthInt = Enemy.HealthInt - Player1.AttackInt;// Enemy.Health = Enemy.HealthInt; 
+			case 5: Enemy.HealthInt = Enemy.HealthInt - Player1.AttackInt; Enemy.Health = to_string(Enemy.HealthInt); 
 				break;
 			}
 		}
@@ -724,14 +725,61 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 5: break;
 	} break; // Player4
 	case 5: switch (AttackMoveNumber) {
+	case 0: break;
 	case 1:
-		if (Enemy.Class == "Goblin King") {}
+		if (Enemy.Class == "Goblin King" || Enemy.Class == "Dragon" || Enemy.Class == "Lich") { // Basic Attack
+			switch (AttackWho) {
+			case 1: Player1.HealthInt = Player1.HealthInt - Enemy.AttackInt; Player1.Health = to_string(Player1.HealthInt); break;
+			case 2: Player2.HealthInt = Player2.HealthInt - Enemy.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
+			case 3: Player3.HealthInt = Player3.HealthInt - Enemy.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
+			case 4: Player4.HealthInt = Player4.HealthInt - Enemy.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
+			}
+		}	
+		break;
+	case 2: 
+		if (Enemy.Class == "Goblin King") {
+			switch (AttackWho) {
+			case 1: 
+			case 2: 
+			case 3: 
+			case 4: Enemy.SaveHealth = Enemy.HealthInt; Enemy.saveHealthTurn = true; break;
+				break;
+			}
+		}
 
-
-
-
-	}
-			break; // Enemy
+		break;
+	case 3: 
+		if (Enemy.Class == "Goblin King") {
+			switch (AttackWho) {
+			case 1: Player1.HealthInt = Player1.HealthInt - (Enemy.AttackInt * 2); Player1.Health = to_string(Player1.HealthInt); break;
+			case 2: Player2.HealthInt = Player2.HealthInt - (Enemy.AttackInt * 2); Player2.Health = to_string(Player2.HealthInt); break;
+			case 3: Player3.HealthInt = Player3.HealthInt - (Enemy.AttackInt * 2); Player3.Health = to_string(Player3.HealthInt); break;
+			case 4: Player4.HealthInt = Player4.HealthInt - (Enemy.AttackInt * 2); Player4.Health = to_string(Player4.HealthInt); break;
+			}
+		}
+		break;
+	case 4: 
+		if (Enemy.Class == "Goblin King") { // Drinking Ale, replenish life
+			switch (AttackWho) {
+			case 1: 
+			case 2: 
+			case 3: 
+			case 4: Enemy.HealthInt = Enemy.HealthInt + 6; Enemy.Health = to_string(Enemy.HealthInt); break;
+			}
+		}
+		break;
+	case 5: 
+		if (Enemy.Class == "Goblin King"){
+			switch (AttackWho) {
+			case 1: 
+			case 2: 
+			case 3: 
+			case 4: Player1.AttackInt = Player1.AttackInt - 1; Player1.Attack = to_string(Player1.AttackInt);
+				break;
+			}
+		}
+		break;
+} break; // Enemy
 	}
 }
 int AttackTargetAndAttack(int PLAYERS) {
@@ -832,15 +880,15 @@ int AttackTargetAndAttack(int PLAYERS) {
 				else if (GameType == 1) { TheAttackChoice = 1; FreeVar = rand() % 6; }
 				else { TheAttackChoice = rand() % 4 + 1; FreeVar = rand() % 6; }
 			}
-			else { Player4.AtKChoice = FreeVar = 0; }
+			else { Enemy.AtKChoice = FreeVar = 0; }
 			if (0 <= FreeVar <= 5) {
 				switch (FreeVar) {
 				case 0: FreeBool = false; break;
-				case 1: if (0 <= Player4.PowerInt - Player4.AtkInt1) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt1; attackMoves(5, 1, TheAttackChoice); FreeBool = false; } break;
-				case 2: if (0 <= Player4.PowerInt - Player4.AtkInt2) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt2; attackMoves(5, 2, TheAttackChoice); FreeBool = false; } break;
-				case 3: if (0 <= Player4.PowerInt - Player4.AtkInt3) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt3; attackMoves(5, 3, TheAttackChoice); FreeBool = false; } break;
-				case 4: if (0 <= Player4.PowerInt - Player4.AtkInt4) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt4; attackMoves(5, 4, TheAttackChoice); FreeBool = false; } break;
-				case 5: if (0 <= Player4.PowerInt - Player4.AtkInt5) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt5; attackMoves(5, 5, TheAttackChoice); FreeBool = false; } break;
+				case 1: if (0 <= Enemy.PowerInt - Enemy.AtkInt1) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt1; attackMoves(5, 1, TheAttackChoice); FreeBool = false; } break;
+				case 2: if (0 <= Enemy.PowerInt - Enemy.AtkInt2) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt2; attackMoves(5, 2, TheAttackChoice); FreeBool = false; } break;
+				case 3: if (0 <= Enemy.PowerInt - Enemy.AtkInt3) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt3; attackMoves(5, 3, TheAttackChoice); FreeBool = false; } break;
+				case 4: if (0 <= Enemy.PowerInt - Enemy.AtkInt4) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt4; attackMoves(5, 4, TheAttackChoice); FreeBool = false; } break;
+				case 5: if (0 <= Enemy.PowerInt - Enemy.AtkInt5) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt5; attackMoves(5, 5, TheAttackChoice); FreeBool = false; } break;
 				}
 			}
 			Enemy.Power = to_string(Enemy.PowerInt);
@@ -867,6 +915,28 @@ int TalkingOnTwoLines(string ThisIS, string ThisIS2, int ThisColor) {
 	Sample = ThisIS2;
 	HIEGHT = textheight(Sample.c_str());
 	WIDTH = textwidth(Sample.c_str());
+	moveto((maxX / 2) - (WIDTH / 2), (maxY / 2) - (HIEGHT));
+	moverel(0, (HIEGHT));
+	outtext(Sample.c_str());
+
+	return 0;
+}
+int TalkingOnThreeLines(string ThisIS, string ThisIS2, string ThisIS3, int ThisColor) {
+	int HIEGHT;
+	int WIDTH;
+	setcolor(ThisColor);
+	Sample = ThisIS;
+	HIEGHT = textheight(Sample.c_str());
+	WIDTH = textwidth(Sample.c_str());
+	moveto((maxX / 2) - (WIDTH / 2), (maxY / 2) - (HIEGHT * 2.50));
+	outtext(Sample.c_str());
+	Sample = ThisIS2;
+	HIEGHT = textheight(Sample.c_str());
+	WIDTH = textwidth(Sample.c_str());
+	moveto((maxX / 2) - (WIDTH / 2), (maxY / 2) - (HIEGHT * 1.25));
+	moverel(0, (HIEGHT));
+	outtext(Sample.c_str());
+	Sample = ThisIS3;
 	moveto((maxX / 2) - (WIDTH / 2), (maxY / 2) - (HIEGHT));
 	moverel(0, (HIEGHT));
 	outtext(Sample.c_str());
@@ -977,6 +1047,7 @@ int TextToScreen(SCREEN WhatTheScreenIs) {
 			Sleep(40);
 			x++;
 		}
+		
 		break;
 	case GOBLINK:
 		Sleep(750);
@@ -1540,9 +1611,23 @@ void DividingUpTheScreenBoss(int x) {
 #pragma endregion
 }
 void NameInput() {
-	int FreeVar;
+	
+	int CaptureKeyPress;
+	do {
+		CaptureKeyPress = getch();
+		if (CaptureKeyPress == 49) { /// PRESS 1
+			GameType = 1;
+		}
+		else if (CaptureKeyPress == 50) { /// PRESS 2
+			GameType = 2;
+		}
+	} while (49 != CaptureKeyPress && 50 != CaptureKeyPress); /// UNCOOPERATIVE
+
+	int FreeVar = GameType;
+	TalkingOnThreeLines("Pick a Game Type (Number):", " 1.) Single Player Match"," 2.) 4 Player Dragon Boss", 15);
 	cout << "Pick a Game Type (Number):\n 1.) Single Player Match\n 2.) 4 Player Dragon Boss" << endl; //\n 3.) 4 Player Lich Boss\n 4.) Gladiator Pit" Later to add
-	cin >> FreeVar;
+	//cin >> FreeVar;
+	
 	cleardevice();
 	if (FreeVar == 1) {
 		GameType = FreeVar;
@@ -1718,10 +1803,15 @@ int main() {
 #pragma region SetUp
 	srand((unsigned int)time(NULL));
 	gr_Start(GrDriver, GrMode, ErrorCode);
+	/* USEFUL
+	int CATCH = getch();
+	cout << CATCH;
+	*/
 	maxY = getmaxy();
 	maxX = getmaxx();
 	bool BoolForGame = true;
 #pragma endregion
+	getch();
 	//int Attack;
 	TextToScreen(OPENING);
 	TextToScreen(TITLE);
