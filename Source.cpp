@@ -30,6 +30,7 @@
 // Work on the Dragon and The Goblin King Randomizing attacks and making the strings work for the players and the Enemy Bosses 
 // Should also probably get the other power of the characters to work...
 // Work on the Health and attacks... And i guess everything else but ya' know 4/26/17
+// The Health should go to zero
 
 #include <iostream>
 #include <Windows.h>
@@ -62,7 +63,7 @@ void gr_Start(int &GrDriver, int&GrMode, int&ErrorCode) {
 
 enum CLASS { KNIGHT, ARCHER, WIZARD, PRIEST, CAVALIER, JUGGERNAUGHT, BMAGE, GUARDIAN, DKNIGHT, LICH, DRAGON, GOBLINKING };
 enum PLAYERS { PLAYER1 = 1, PLAYER2 = 2, PLAYER3 = 3, PLAYER4 = 4, ENEMY = 5 };
-enum SCREEN {OPENING, TITLE, GOBLINK};
+enum SCREEN { OPENING, TITLE, GOBLINK };
 int enemyColor = 5;
 int AttackSpot, ClassSpot, PlayerBeingAttackedSpot;
 
@@ -217,6 +218,7 @@ struct PlayerStruct {
 			PowerInt = 1;
 			enemyColor = 5;
 			Alive = true;
+			Class = "Dragon";
 			break;
 		case LICH:
 			Health = "75";
@@ -227,6 +229,7 @@ struct PlayerStruct {
 			PowerInt = 1;
 			enemyColor = 9;
 			Alive = true;
+			Class = "Lich";
 			break;
 		case GOBLINKING:
 			Health = "25";
@@ -238,6 +241,7 @@ struct PlayerStruct {
 			enemyColor = 12;
 			AtkInt1 = 1; AtkInt2 = 2; AtkInt3 = 3; AtkInt4 = 4; AtkInt5 = 5;
 			Alive = true;
+			Class = "Goblin King";
 			break;
 		}
 	}
@@ -719,7 +723,14 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 4: break;
 	case 5: break;
 	} break; // Player4
-	case 5:
+	case 5: switch (AttackMoveNumber) {
+	case 1: 
+		if (Enemy.Class == "Goblin King") {}
+	
+	
+	
+	
+	}
 		break; // Enemy
 	}
 }
@@ -751,7 +762,7 @@ int AttackTargetAndAttack(int PLAYERS) {
 				case 5: if (0 <= Player1.PowerInt - Player1.AtkInt5) { Player1.PowerInt = Player1.PowerInt - Player1.AtkInt5; attackMoves(1, 5, TheAttackChoice); FreeBool = false; } break;
 				}
 			}
-			Player1.Power = Player1.PowerInt;
+			Player1.Power = to_string(Player1.PowerInt);
 		}
 		break;
 	case 2:
@@ -760,7 +771,7 @@ int AttackTargetAndAttack(int PLAYERS) {
 				cin >> FreeVar; if (GameType == 4) { cin >> TheAttackChoice; }
 				else { TheAttackChoice = 5; }
 			}
-			else { Player3.AtKChoice = FreeVar = 0; }
+			else { Player2.AtKChoice = FreeVar = 0; }
 			if (0 <= FreeVar <= 5) {
 				switch (FreeVar) {
 				case 0: FreeBool = false; break;
@@ -771,7 +782,7 @@ int AttackTargetAndAttack(int PLAYERS) {
 				case 5: if (0 <= Player2.PowerInt - Player2.AtkInt5) { Player2.PowerInt = Player2.PowerInt - Player2.AtkInt5; attackMoves(2, 5, TheAttackChoice); FreeBool = false; } break;
 				}
 			}
-			Player2.Power = Player2.PowerInt;
+			Player2.Power = to_string(Player2.PowerInt);
 		}
 		break;
 	case 3:
@@ -791,7 +802,7 @@ int AttackTargetAndAttack(int PLAYERS) {
 				case 5: if (0 <= Player3.PowerInt - Player3.AtkInt5) { Player3.PowerInt = Player3.PowerInt - Player3.AtkInt5; attackMoves(3, 5, TheAttackChoice); FreeBool = false; } break;
 				}
 			}
-			Player3.Power = Player3.PowerInt;
+			Player3.Power = to_string(Player3.PowerInt);
 		}
 		break;
 	case 4:
@@ -811,22 +822,28 @@ int AttackTargetAndAttack(int PLAYERS) {
 				case 5: if (0 <= Player4.PowerInt - Player4.AtkInt5) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt5; attackMoves(4, 5, TheAttackChoice); FreeBool = false; } break;
 				}
 			}
-			Player4.Power = Player4.PowerInt;
+			Player4.Power = to_string(Player4.PowerInt);
 		}
 		break;
 	case 5:
-		if (Enemy.Alive == true) { cin >> FreeVar; }
-		else { Enemy.AtKChoice = FreeVar = 0; }
-		if (0 <= FreeVar <= 5) {
-			switch (FreeVar) {
-			case 0: FreeBool = false; break;
-			case 1: if (0 <= Enemy.PowerInt - Enemy.AtkInt1) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt1; attackMoves(5, 1, TheAttackChoice); FreeBool = false; } break;
-			case 2: if (0 <= Enemy.PowerInt - Enemy.AtkInt2) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt2; attackMoves(5, 2, TheAttackChoice); FreeBool = false; } break;
-			case 3: if (0 <= Enemy.PowerInt - Enemy.AtkInt3) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt3; attackMoves(5, 3, TheAttackChoice); FreeBool = false; } break;
-			case 4: if (0 <= Enemy.PowerInt - Enemy.AtkInt4) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt4; attackMoves(5, 4, TheAttackChoice); FreeBool = false; } break;
-			case 5: if (0 <= Enemy.PowerInt - Enemy.AtkInt5) { Enemy.PowerInt = Enemy.PowerInt - Enemy.AtkInt5; attackMoves(5, 5, TheAttackChoice); FreeBool = false; } break;
+		while (FreeBool) {
+			if (Enemy.Alive == true) {
+				if (GameType == 4) { Enemy.Alive = false; }
+				else if (GameType == 1) { TheAttackChoice = 1; FreeVar = rand() % 6; }
+				else { TheAttackChoice = rand() % 4 + 1; FreeVar = rand() % 6; }
 			}
-			Player1.Power = Player1.PowerInt;
+			else { Player4.AtKChoice = FreeVar = 0; }
+			if (0 <= FreeVar <= 5) {
+				switch (FreeVar) {
+				case 0: FreeBool = false; break;
+				case 1: if (0 <= Player4.PowerInt - Player4.AtkInt1) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt1; attackMoves(5, 1, TheAttackChoice); FreeBool = false; } break;
+				case 2: if (0 <= Player4.PowerInt - Player4.AtkInt2) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt2; attackMoves(5, 2, TheAttackChoice); FreeBool = false; } break;
+				case 3: if (0 <= Player4.PowerInt - Player4.AtkInt3) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt3; attackMoves(5, 3, TheAttackChoice); FreeBool = false; } break;
+				case 4: if (0 <= Player4.PowerInt - Player4.AtkInt4) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt4; attackMoves(5, 4, TheAttackChoice); FreeBool = false; } break;
+				case 5: if (0 <= Player4.PowerInt - Player4.AtkInt5) { Player4.PowerInt = Player4.PowerInt - Player4.AtkInt5; attackMoves(5, 5, TheAttackChoice); FreeBool = false; } break;
+				}
+			}
+			Enemy.Power = to_string(Enemy.PowerInt);
 		}
 		break;
 	}
@@ -850,13 +867,13 @@ int TalkingOnTwoLines(string ThisIS, string ThisIS2, int ThisColor) {
 	Sample = ThisIS2;
 	HIEGHT = textheight(Sample.c_str());
 	WIDTH = textwidth(Sample.c_str());
-	moveto((maxX / 2) - (WIDTH / 2), (maxY / 2) - (HIEGHT ));
+	moveto((maxX / 2) - (WIDTH / 2), (maxY / 2) - (HIEGHT));
 	moverel(0, (HIEGHT));
 	outtext(Sample.c_str());
 
 	return 0;
 }
-int ShakingOneLine(string NAMEifAny, string ThisIS, int ThisColorTalking, int ThisColorText, int Number1, int Number2) { 
+int ShakingOneLine(string NAMEifAny, string ThisIS, int ThisColorTalking, int ThisColorText, int Number1, int Number2) {
 	int HIEGHT;
 	int WIDTH;
 	setcolor(ThisColorTalking);
@@ -871,7 +888,8 @@ int ShakingOneLine(string NAMEifAny, string ThisIS, int ThisColorTalking, int Th
 	WIDTH = textwidth(Sample.c_str());
 	moveto(((maxX / 2) - (WIDTH / 2)) + Number1, ((maxY / 2) - (HIEGHT)) + Number2);
 	outtext(Sample.c_str());
-	return 0; }
+	return 0;
+}
 int TextToScreen(SCREEN WhatTheScreenIs) {
 	// You use this for talking, its not as much the function as much as it is the initalizer
 	int x = 4;
@@ -880,24 +898,25 @@ int TextToScreen(SCREEN WhatTheScreenIs) {
 	setcolor(0);
 	bar(0, 0, maxX, maxY);
 	cleardevice();
-	settextstyle(6,0,2);
+	settextstyle(6, 0, 2);
 	setcolor(15);
-	
+
 	switch (WhatTheScreenIs) {
-	case OPENING: 
+	case OPENING:
+		Sleep(1400);
 #pragma region FirstScreen
 		Sleep(500);
-		TalkingOnTwoLines("Eons Ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 8);
+		TalkingOnTwoLines("Eons ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 8);
 		Sleep(500);
-		TalkingOnTwoLines("Eons Ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 7);
+		TalkingOnTwoLines("Eons ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 7);
 		Sleep(700);
-		TalkingOnTwoLines("Eons Ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 15);
+		TalkingOnTwoLines("Eons ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 15);
 		Sleep(4000);
-		TalkingOnTwoLines("Eons Ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 7);
+		TalkingOnTwoLines("Eons ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 7);
 		Sleep(700);
-		TalkingOnTwoLines("Eons Ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 8);
+		TalkingOnTwoLines("Eons ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 8);
 		Sleep(500);
-		TalkingOnTwoLines("Eons Ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 0);
+		TalkingOnTwoLines("Eons ago", "Two Brothers,  LYTHERICK  and  POLLARS , fought against each other...", 0);
 #pragma endregion
 		Sleep(1000);
 #pragma region SecondScreen
@@ -929,37 +948,37 @@ int TextToScreen(SCREEN WhatTheScreenIs) {
 #pragma endregion		
 		Sleep(1000);
 #pragma region FourthScreen
-		TalkingOnTwoLines("Heros are spread far and few, but some still follow LYTHERICK'S Teachings,", "Now  YOU  must save the World from certain doom in...", 8);
+		TalkingOnTwoLines("Heros are spread far and few, but some still follow  LYTHERICK'S  Teachings,", "Now  YOU  must save the World from certain doom in...", 8);
 		Sleep(500);
-		TalkingOnTwoLines("Heros are spread far and few, but some still follow LYTHERICK'S Teachings,", "Now  YOU  must save the World from certain doom in...", 7);
+		TalkingOnTwoLines("Heros are spread far and few, but some still follow  LYTHERICK'S  Teachings,", "Now  YOU  must save the World from certain doom in...", 7);
 		Sleep(700);
-		TalkingOnTwoLines("Heros are spread far and few, but some still follow LYTHERICK'S Teachings,", "Now  YOU  must save the World from certain doom in...", 15);
+		TalkingOnTwoLines("Heros are spread far and few, but some still follow  LYTHERICK'S  Teachings,", "Now  YOU  must save the World from certain doom in...", 15);
 		Sleep(7000);
-		TalkingOnTwoLines("Heros are spread far and few, but some still follow LYTHERICK'S Teachings,", "Now  YOU  must save the World from certain doom in...", 7);
+		TalkingOnTwoLines("Heros are spread far and few, but some still follow  LYTHERICK'S  Teachings,", "Now  YOU  must save the World from certain doom in...", 7);
 		Sleep(700);
-		TalkingOnTwoLines("Heros are spread far and few, but some still follow LYTHERICK'S Teachings,", "Now  YOU  must save the World from certain doom in...", 8);
+		TalkingOnTwoLines("Heros are spread far and few, but some still follow  LYTHERICK'S  Teachings,", "Now  YOU  must save the World from certain doom in...", 8);
 		Sleep(500);
-		TalkingOnTwoLines("Heros are spread far and few, but some still follow LYTHERICK'S Teachings,", "Now  YOU  must save the World from certain doom in...", 0);
+		TalkingOnTwoLines("Heros are spread far and few, but some still follow  LYTHERICK'S  Teachings,", "Now  YOU  must save the World from certain doom in...", 0);
 		Sleep(1500);
 #pragma endregion		
 		break;
-	case TITLE: 
+	case TITLE:
 		settextstyle(1, 0, 9);
 		while (x <= 9) {
-			TalkingOnTwoLines("KNIGHT'S", "QUEST", 7);
-			Sleep(50);
-			TalkingOnTwoLines("KNIGHT'S", "QUEST", 9);
-			Sleep(50);
-			TalkingOnTwoLines("KNIGHT'S", "QUEST", 11);
-			Sleep(50);
-			TalkingOnTwoLines("KNIGHT'S", "QUEST", 3);
-			Sleep(50);
-			TalkingOnTwoLines("KNIGHT'S", "QUEST", 1);
-			Sleep(50);
+			TalkingOnTwoLines("KNIGHT", "QUEST", 7);
+			Sleep(40);
+			TalkingOnTwoLines("KNIGHT", "QUEST", 9);
+			Sleep(40);
+			TalkingOnTwoLines("KNIGHT", "QUEST", 11);
+			Sleep(40);
+			TalkingOnTwoLines("KNIGHT", "QUEST", 3);
+			Sleep(40);
+			TalkingOnTwoLines("KNIGHT", "QUEST", 1);
+			Sleep(40);
 			x++;
 		}
 		break;
-	case GOBLINK: 
+	case GOBLINK:
 		Sleep(750);
 #pragma region FirstScreen
 		while (x <= 9) {
@@ -984,7 +1003,7 @@ int TextToScreen(SCREEN WhatTheScreenIs) {
 #pragma region SecondScreen
 		cleardevice();
 		ShakingOneLine("VILLAGER:", "Help Us!", 9, 15, 0, 0);
-		Sleep(1050);
+		Sleep(1250);
 		cleardevice();
 		ShakingOneLine("VILLAGER:", "The GOBLINS are attacking!", 12, 15, 0, 0);
 		Sleep(1450);
@@ -1563,11 +1582,11 @@ void EndTurnAffects() {
 		Player1.Power = Player1.PowerInt;
 		if (Player1.PowerInt >= 4) {
 			Player1.PowerInt = 4;
-			Player1.Power = Player1.PowerInt;
+			Player1.Power = to_string(Player1.PowerInt);
 		}
 		if (Player1.HealthInt > Player1.SetHealth) {
 			Player1.HealthInt = (Player1.SetHealth);
-			Player1.Health = Player1.HealthInt;
+			Player1.Health = to_string(Player1.HealthInt);
 		}
 		if (Player1.HealthInt < 0) {
 			Player1.HealthInt = 0;
@@ -1579,15 +1598,15 @@ void EndTurnAffects() {
 		Player2.Power = Player2.PowerInt;
 		if (Player2.PowerInt >= 4) {
 			Player2.PowerInt = 4;
-			Player2.Power = Player2.PowerInt;
+			Player2.Power = to_string(Player2.PowerInt);
 		}
 		if (Player2.HealthInt > Player2.SetHealth) {
 			Player2.HealthInt = (Player2.SetHealth);
-			Player2.Health = Player2.HealthInt;
+			Player2.Health = to_string(Player2.HealthInt);
 		}
 		if (Player2.HealthInt < 0) {
 			Player2.HealthInt = 0;
-			Player2.Health = Player2.HealthInt;
+			Player2.Health = to_string(Player2.HealthInt);
 		}
 	}
 	if (Player3.Alive == true) {
@@ -1595,15 +1614,15 @@ void EndTurnAffects() {
 		Player3.Power = Player3.PowerInt;
 		if (Player3.PowerInt >= 4) {
 			Player3.PowerInt = 4;
-			Player3.Power = Player3.PowerInt;
+			Player3.Power = to_string(Player3.PowerInt);
 		}
 		if (Player3.HealthInt > Player3.SetHealth) {
 			Player3.HealthInt = (Player3.SetHealth);
-			Player3.Health = Player3.HealthInt;
+			Player3.Health = to_string(Player3.HealthInt);
 		}
 		if (Player3.HealthInt < 0) {
 			Player3.HealthInt = 0;
-			Player3.Health = Player3.HealthInt;
+			Player3.Health = to_string(Player3.HealthInt);
 		}
 	}
 	if (Player4.Alive == true) {
@@ -1611,47 +1630,46 @@ void EndTurnAffects() {
 		Player4.Power = Player1.PowerInt;
 		if (Player4.PowerInt >= 4) {
 			Player4.PowerInt = 4;
-			Player4.Power = Player4.PowerInt;
+			Player4.Power = to_string(Player4.PowerInt);
 		}
 		if (Player4.HealthInt > Player4.SetHealth) {
 			Player4.HealthInt = (Player4.SetHealth);
-			Player4.Health = Player4.HealthInt;
+			Player4.Health = to_string(Player4.HealthInt);
 		}
 		if (Player4.HealthInt < 0) {
 			Player4.HealthInt = 0;
-			Player4.Health = Player4.HealthInt;
+			Player4.Health = to_string(Player4.HealthInt);
 		}
 	}
 	if (Enemy.Alive == true) {
 		if (Enemy.Alive == true) {
-			Enemy.PowerInt++;
+			Enemy.PowerInt = Enemy.PowerInt + 2;
 			Enemy.Power = Enemy.PowerInt;
 			if (Enemy.PowerInt > 7) {
 				Enemy.PowerInt = 7;
-				Enemy.Power = Enemy.PowerInt;
+				Enemy.Power = to_string(Enemy.PowerInt);
 			}
 			if (Enemy.HealthInt > Enemy.SetHealth) {
 				Enemy.HealthInt = (Enemy.SetHealth);
 				theConversionFromIntToString(Enemy.HealthInt, Enemy.Health);
-				//char*intStr = itoa(Enemy.HealthInt);
-				//Enemy.Health = string(intStr);
+				Enemy.Health = to_string(Enemy.HealthInt);
 			}
 			if (Enemy.HealthInt < 0) {
 				Enemy.HealthInt = 0;
-				Enemy.Health = Enemy.HealthInt;
+				Enemy.Health = to_string(Enemy.HealthInt);
 			}
 		}
 	}
 }
 void DeadAliveLossWin(string Player1Health, string Player2Health, string Player3Health, string Player4Health, int GameType, bool Endturn) {
 	// handles the death and makes the game end
-	/*
-	if (Player1.ThornInTheSide = true) { Player1.HealthInt--; theConversionFromIntToString(Player1.HealthInt, Player1.Health); }
-	if (Player2.ThornInTheSide = true) { Player2.HealthInt--; theConversionFromIntToString(Player2.HealthInt, Player2.Health); }
-	if (Player3.ThornInTheSide = true) { Player3.HealthInt--; theConversionFromIntToString(Player3.HealthInt, Player3.Health); }
-	if (Player4.ThornInTheSide = true) { Player4.HealthInt--; theConversionFromIntToString(Player4.HealthInt, Player4.Health); }
-	if (Enemy.ThornInTheSide = true) { Enemy.HealthInt--; theConversionFromIntToString(Enemy.HealthInt, Enemy.Health); }
-*/
+	
+	if (Player1.ThornInTheSide == true) { Player1.HealthInt--; theConversionFromIntToString(Player1.HealthInt, Player1.Health); }
+	if (Player2.ThornInTheSide == true) { Player2.HealthInt--; theConversionFromIntToString(Player2.HealthInt, Player2.Health); }
+	if (Player3.ThornInTheSide == true) { Player3.HealthInt--; theConversionFromIntToString(Player3.HealthInt, Player3.Health); }
+	if (Player4.ThornInTheSide == true) { Player4.HealthInt--; theConversionFromIntToString(Player4.HealthInt, Player4.Health); }
+	if (Enemy.ThornInTheSide == true) { Enemy.HealthInt--; theConversionFromIntToString(Enemy.HealthInt, Enemy.Health); }
+	
 
 	if (Player1.Health == "0") { Player1.Alive = false; }
 	else { Player1.Alive = true; }
@@ -1687,80 +1705,94 @@ void DeadAliveLossWin(string Player1Health, string Player2Health, string Player3
 	}
 }
 
+int ClearStats() { 
+	//Clears all stats for the characters
+	Player1.Alive = false; Player2.Alive = false; Player3.Alive = false; Player4.Alive = false; Enemy.Alive = false;
+	Player1.AttackInt, Player2.AttackInt, Player3.AttackInt, Player4.AttackInt, Enemy.AttackInt = 0;
+	Player1.Class, Player2.Class, Player3.Class, Player4.Class, Enemy.Class = " ";
+	GameStillGoing = true;
+	return 0; }
+
 int main() {
 #pragma region SetUp
 	srand((unsigned int)time(NULL));
 	gr_Start(GrDriver, GrMode, ErrorCode);
 	maxY = getmaxy();
 	maxX = getmaxx();
+	bool BoolForGame = true;
 #pragma endregion
 	//int Attack;
 	TextToScreen(OPENING);
 	TextToScreen(TITLE);
 	// Show the 2 Options
-	NameInput();
+	while (BoolForGame == true) {
+		NameInput();
 
-	if (GameType == 1) {
-		Enemy.init(GOBLINKING);
-		TextToScreen(GOBLINK);
-		cleardevice();
-		while (GameStillGoing) {
-			DividingUpTheScreenBoss(1); // Screen Check
-			AttackTargetAndAttack(1);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
-			DividingUpTheScreenBoss(5);
-			AttackTargetAndAttack(5);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, true);
+		if (GameType == 1) {
+			Enemy.init(GOBLINKING);
+			TextToScreen(GOBLINK);
+			cleardevice();
+			while (GameStillGoing) {
+				DividingUpTheScreenBoss(1); // Screen Check
+				AttackTargetAndAttack(1);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
+				DividingUpTheScreenBoss(5);
+				AttackTargetAndAttack(5);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, true);
+			}
 		}
+
+		if (GameType == 2 || GameType == 3) {
+			switch (GameType)
+			{
+			case 2: Enemy.init(DRAGON);
+				break;
+			case 3: Enemy.init(LICH);
+				break;
+			}
+			while (GameStillGoing) {
+				DividingUpTheScreenBoss(1); // Screen Check
+				AttackTargetAndAttack(1);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
+				DividingUpTheScreenBoss(2);
+				AttackTargetAndAttack(2);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
+				DividingUpTheScreenBoss(3);
+				AttackTargetAndAttack(3);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
+				DividingUpTheScreenBoss(4);
+				AttackTargetAndAttack(4);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
+				DividingUpTheScreenBoss(5);
+				AttackTargetAndAttack(5);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, true);
+			}
+		}
+
+		if (GameType == 4) {
+			while (GameStillGoing) {
+
+				DividingUpTheScreenBoss(1); // Screen Check
+				AttackTargetAndAttack(1);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
+				DividingUpTheScreenBoss(2);
+				AttackTargetAndAttack(2);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
+				DividingUpTheScreenBoss(3);
+				AttackTargetAndAttack(3);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
+				DividingUpTheScreenBoss(4);
+				AttackTargetAndAttack(4);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, true);
+			}
+		}
+
+		if (GameType == 9) { BoolForGame = false; }
+
+		cout << maxY << " : Max Y" << endl << maxX << " : Max X" << endl;
+		system("pause");
+		ClearStats();
 	}
-
-	if (GameType == 2 || GameType == 3) {
-		switch (GameType)
-		{
-		case 2: Enemy.init(DRAGON);
-			break;
-		case 3: Enemy.init(LICH);
-			break;
-		}
-		while (GameStillGoing) {
-			DividingUpTheScreenBoss(1); // Screen Check
-			AttackTargetAndAttack(1);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
-			DividingUpTheScreenBoss(2);
-			AttackTargetAndAttack(2);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
-			DividingUpTheScreenBoss(3);
-			AttackTargetAndAttack(3);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
-			DividingUpTheScreenBoss(4);
-			AttackTargetAndAttack(4);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
-			DividingUpTheScreenBoss(5);
-			AttackTargetAndAttack(5);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, true);
-		}
-	}
-
-	if (GameType == 4) {
-		while (GameStillGoing) {
-
-			DividingUpTheScreenBoss(1); // Screen Check
-			AttackTargetAndAttack(1);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
-			DividingUpTheScreenBoss(2);
-			AttackTargetAndAttack(2);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
-			DividingUpTheScreenBoss(3);
-			AttackTargetAndAttack(3);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, false);
-			DividingUpTheScreenBoss(4);
-			AttackTargetAndAttack(4);
-			DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, true);
-		}
-	}
-
-	cout << maxY << " : Max Y" << endl << maxX << " : Max X" << endl;
 	system("pause");
 	return 0;
 }
-
