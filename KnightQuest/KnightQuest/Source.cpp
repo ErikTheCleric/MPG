@@ -32,9 +32,14 @@
 // Work on the Health and attacks... And i guess everything else but ya' know 4/26/17
 // The Health should go to zero
 // The Side bar should be a story updater / thing, telling whats going on in the battle / Lore
-// Make the Attack screen work better please
-// Work on the Attacks ... Box SetUp
+// Add a Second Color for enemy bosses
+// Copy Wizard for the other Players. Right now its in Player 1
+// Things to do: Fix the death in the game, change the attacks, give the priest some attacks, provide more exposition, Bosses, and transitions 
+// Healing should also apply to the SaveHealth to make sure that the health is carried out
+// Making the Rim (Boxes) of the game the color of the Boss
+// Putting more into hte screen and the shaping the combat. Idea: Make an arrow that points at the player attacking 
 
+// Main Obj: Make the Attacks work and Deaths work. I'm very proud of the progress with the graphics, now focus on making it al work
 #include <iostream>
 #include <Windows.h>
 #include <windows.h>
@@ -67,7 +72,7 @@ void gr_Start(int &GrDriver, int&GrMode, int&ErrorCode) {
 enum CLASS { KNIGHT, ARCHER, WIZARD, PRIEST, CAVALIER, JUGGERNAUGHT, BMAGE, GUARDIAN, DKNIGHT, LICH, DRAGON, GOBLINKING };
 enum PLAYERS { PLAYER1 = 1, PLAYER2 = 2, PLAYER3 = 3, PLAYER4 = 4, ENEMY = 5 };
 enum SCREEN { OPENING, TITLE, GOBLINK };
-int enemyColor = 5;
+int enemyColor = 5, enemyColor2 = 0;
 int AttackSpot, ClassSpot, PlayerBeingAttackedSpot;
 
 struct PlayerStruct {
@@ -219,7 +224,8 @@ struct PlayerStruct {
 			Attack = "4";
 			Power = "1";
 			PowerInt = 1;
-			enemyColor = 5;
+			enemyColor = 5; // Purple
+			enemyColor2 = 13; // Light Purple
 			Alive = true;
 			Class = "Dragon";
 			break;
@@ -230,7 +236,8 @@ struct PlayerStruct {
 			Attack = "7";
 			Power = "1";
 			PowerInt = 1;
-			enemyColor = 9;
+			enemyColor = 9; // Light Blue
+			enemyColor2 = 3; // Cyan
 			Alive = true;
 			Class = "Lich";
 			break;
@@ -241,7 +248,8 @@ struct PlayerStruct {
 			Attack = "3";
 			Power = "1";
 			PowerInt = 1;
-			enemyColor = 12;
+			enemyColor = 2; // Green
+			enemyColor2 = 10; // Brown -- 11
 			AtkInt1 = 1; AtkInt2 = 2; AtkInt3 = 3; AtkInt4 = 4; AtkInt5 = 5;
 			Alive = true;
 			Class = "Goblin King";
@@ -293,13 +301,14 @@ struct PlayerStruct {
 			}
 			} break;
 			case ARCHER:switch (AttackSpot) {
+				// Took out a " Break; " from all these lines
 			case 1: switch (PlayerBeingAttacked) { // Accurate Arrow
 			case 5:
 			case 1: Enemy.HealthInt = Enemy.HealthInt - Player1.AttackInt; break;
 			case 2: Player2.HealthInt = Player2.HealthInt - Player1.AttackInt; break;
 			case 3: Player3.HealthInt = Player3.HealthInt - Player1.AttackInt; break;
 			case 4: Player4.HealthInt = Player4.HealthInt - Player1.AttackInt; break;
-			} break;
+			}      
 			case 2: switch (PlayerBeingAttacked) { // Multiple Shots
 												   // Accurate Arrow
 			case 1:
@@ -307,14 +316,14 @@ struct PlayerStruct {
 			case 3:
 			case 4: Player2.HealthInt = Player2.HealthInt - (Player1.AttackInt / 3); Player3.HealthInt = Player3.HealthInt - (Player1.AttackInt / 3); Player4.HealthInt = Player4.HealthInt - (Player1.AttackInt / 3); break;
 			case 5: Enemy.HealthInt = Enemy.HealthInt - (Player1.AttackInt + 1); break;
-			} break;
+			} 
 			case 3: switch (PlayerBeingAttacked) { // Caging the beast
 			case 1:
 			case 2:
 			case 3:
 			case 4: Player2.CannotAttack = true; Player3.CannotAttack = true; Player4.CannotAttack = true; break;
 			case 5: Enemy.CannotAttack = true; break;
-			} break;
+			} 
 			case 4: switch (PlayerBeingAttacked) { // Dragon Trip
 			case 1:
 			case 2:
@@ -323,16 +332,52 @@ struct PlayerStruct {
 				Player2.HealthInt = Player2.HealthInt - (Player1.AttackInt / 3); Player3.HealthInt = Player3.HealthInt - (Player1.AttackInt / 3); Player4.HealthInt = Player4.HealthInt - (Player1.AttackInt / 3);
 				break;
 			case 5: Enemy.CannotAttack = true; Enemy.HealthInt = Enemy.HealthInt - (Player1.AttackInt / 3); break;
-			} break;
+			} 
 			case 5: switch (PlayerBeingAttacked) {
 			case 2: Player2.ThornInTheSide = true; break;
 			case 3: Player3.ThornInTheSide = true; break;
 			case 4: Player4.ThornInTheSide = true; break;
 			case 1:
 			case 5: Enemy.ThornInTheSide = true; break;
-			} break;
+			} 
 			}
-			case WIZARD: break;
+			case WIZARD:switch (AttackSpot) {
+			case 1: switch (PlayerBeingAttacked) { // Ice Storm - Power and Health
+			case 5:
+			case 1: Enemy.PowerInt = Enemy.PowerInt - 1; Enemy.HealthInt = Enemy.HealthInt - (Player1.AttackInt / 2); break;
+			case 2: Player2.PowerInt = Player2.PowerInt - 1; Player2.HealthInt = Player2.HealthInt - (Player1.AttackInt / 2); break;
+			case 3: Player3.PowerInt = Player3.PowerInt - 1; Player3.HealthInt = Player3.HealthInt - (Player1.AttackInt / 2); break;
+			case 4: Player4.PowerInt = Player4.PowerInt - 1; Player4.HealthInt = Player4.HealthInt - (Player1.AttackInt / 2); break;
+			} 
+			case 2: switch (PlayerBeingAttacked) { // Fire Blast - Life and Attack
+			case 5:
+			case 1: Enemy.AttackInt = Enemy.AttackInt - 1; Enemy.HealthInt = Enemy.HealthInt - (Player1.AttackInt / 2); break;
+			case 2: Player2.AttackInt = Player2.AttackInt - 1; Player2.HealthInt = Player2.HealthInt - (Player1.AttackInt / 2); break;
+			case 3: Player3.AttackInt = Player3.AttackInt - 1; Player3.HealthInt = Player3.HealthInt - (Player1.AttackInt / 2); break;
+			case 4: Player4.AttackInt = Player4.AttackInt - 1; Player4.HealthInt = Player4.HealthInt - (Player1.AttackInt / 2); break;
+			} 
+			case 3: switch (PlayerBeingAttacked) { // Lightning Bolt - Attack and Power
+			case 5:
+			case 1: Enemy.AttackInt = Enemy.AttackInt - 1; Enemy.PowerInt = Enemy.PowerInt - 1; break;
+			case 2: Player2.AttackInt = Player2.AttackInt - 1; Player2.PowerInt = Player2.PowerInt - 1; break;
+			case 3: Player3.AttackInt = Player3.AttackInt - 1; Player3.PowerInt = Player3.PowerInt - 1; break;
+			case 4: Player4.AttackInt = Player4.AttackInt - 1; Player4.PowerInt = Player4.PowerInt - 1; break;
+			} 
+			case 4: switch (PlayerBeingAttacked) { // Shadow Call - Reduce All for a player
+			case 5:
+			case 1: Enemy.AttackInt = Enemy.AttackInt - 1; Enemy.HealthInt = Enemy.HealthInt - (Player1.AttackInt / 2); Enemy.PowerInt = Enemy.PowerInt - 1; break;
+			case 2: Player2.AttackInt = Player2.AttackInt - 1; Player2.HealthInt = Player2.HealthInt - (Player1.AttackInt / 2); Player2.PowerInt = Player2.PowerInt - 1; break;
+			case 3: Player3.AttackInt = Player3.AttackInt - 1; Player3.HealthInt = Player3.HealthInt - (Player1.AttackInt / 2); Player3.PowerInt = Player3.PowerInt - 1; break;
+			case 4: Player4.AttackInt = Player4.AttackInt - 1; Player4.HealthInt = Player4.HealthInt - (Player1.AttackInt / 2); Player4.PowerInt = Player4.PowerInt - 1; break;
+			} 
+			case 5: switch (PlayerBeingAttacked) {
+			case 2:
+			case 3:
+			case 4:
+			case 1: Player1.HealthInt += Player1.SetHealth / 4;
+			case 5: Player1.HealthInt += Player1.SetHealth / 4; Player2.HealthInt += Player2.SetHealth / 4; Player3.HealthInt += Player3.SetHealth / 4; Player4.HealthInt += Player4.SetHealth / 4;
+			} 
+			} break;
 			case PRIEST: break;
 			case CAVALIER: break;
 			case DKNIGHT: break;
@@ -670,7 +715,7 @@ int main() {
 			while (GameStillGoing) {
 				DividingUpTheScreenBoss(TheNumberS); // Screen Check
 				AttackTargetAndAttack(TheNumberS);
-				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, forTrueFalsePower, TheNumberS);
+				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, 1, forTrueFalsePower, TheNumberS);
 				TheNumberS++;
 				if (TheNumberS == 2) { TheNumberS = 5; forTrueFalsePower = false; }
 				if (TheNumberS == 6) { TheNumberS = 1; forTrueFalsePower = true; }
@@ -710,10 +755,9 @@ int main() {
 		if (GameType == 9) { BoolForGame = false; }
 
 		cout << maxY << " : Max Y" << endl << maxX << " : Max X" << endl;
-		system("pause");
+		//system("pause");
 		ClearStats();
 	}
-	system("pause");
 	return 0;
 }
 
@@ -755,11 +799,59 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 			}
 		}
 		break;
-	case 2: break;
-	case 3: break;
-	case 4: break;
-	case 5: break;
+	case 2: 
+		if (Player1.Class == "Knight") {
+		Player1.saveHealthTurn = true; 
+		Player1.Health = Player1.SaveHealth; 
+		}
+		break;
+	case 3:
+		if (Player1.Class == "Knight") {
+			switch (AttackWho) { // Swift Slash
+			case 1: 
+			case 2: 
+			case 3: 
+			case 4: Player1.AttackInt += 3; Player1.Attack = to_string(Player1.AttackInt); break;
+			case 5: 
+				Player1.AttackInt += 2; Player1.Attack = to_string(Player1.AttackInt);
+				Player2.AttackInt += 2; Player2.Attack = to_string(Player2.AttackInt);
+				Player3.AttackInt += 2; Player3.Attack = to_string(Player3.AttackInt);
+				Player4.AttackInt += 2; Player4.Attack = to_string(Player4.AttackInt); break;
+			}
+		}
+		break;
+	case 4: 
+		if (Player1.Class == "Knight") {
+			switch (AttackWho) { //LargeShield
+			case 1:
+			case 2:
+			case 3:
+			case 4: Player1.saveHealthTurn = true;
+				Player1.HealthInt += 5;
+				Player1.Health = to_string(Player1.HealthInt);
+				Player1.Health = Player1.SaveHealth;  break;
+			case 5:
+				Player1.saveHealthTurn = true; Player2.saveHealthTurn = true; Player3.saveHealthTurn = true; Player4.saveHealthTurn = true;
+				Player1.HealthInt += 3; Player2.HealthInt += 3; Player3.HealthInt += 3; Player4.HealthInt += 3;
+				Player1.Health = to_string(Player1.HealthInt); Player2.Health = to_string(Player2.HealthInt); Player3.Health = to_string(Player3.HealthInt); Player4.Health = to_string(Player4.HealthInt);
+				Player1.Health = Player1.SaveHealth; Player2.Health = Player2.SaveHealth; Player3.Health = Player3.SaveHealth; Player4.Health = Player4.SaveHealth; break;
+			}
+		}
+		break;
+	case 5:
+		if (Player1.Class == "Knight") {
+			switch (AttackWho) { // Swift Slash
+			case 2: Player2.HealthInt = Player2.HealthInt - (Player1.AttackInt + Player2.AttackInt + Player3.AttackInt + Player4.AttackInt); Player2.Health = to_string(Player2.HealthInt); break;
+			case 3: Player3.HealthInt = Player3.HealthInt - (Player1.AttackInt + Player2.AttackInt + Player3.AttackInt + Player4.AttackInt); Player3.Health = to_string(Player3.HealthInt); break;
+			case 4: Player4.HealthInt = Player4.HealthInt - (Player1.AttackInt + Player2.AttackInt + Player3.AttackInt + Player4.AttackInt); Player4.Health = to_string(Player4.HealthInt); break;
+			case 1:
+			case 5: Enemy.HealthInt = Enemy.HealthInt - (Player1.AttackInt + Player2.AttackInt + Player3.AttackInt + Player4.AttackInt); Enemy.Health = to_string(Enemy.HealthInt);
+				break;
+			}
+		}
+		break;
 	} break; // Player1
+
 	case 2: switch (AttackMoveNumber) {
 	case 1: if (Player2.Class == "Knight" || Player2.Class == "Archer" || Player2.Class == "Wizard" || Player2.Class == "Priest" || Player2.Class == "Juggernaught") {
 		switch (AttackWho) { // Swift Slash
@@ -775,6 +867,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 4: break;
 	case 5: break;
 	} break; // Player2
+
 	case 3: switch (AttackMoveNumber) {
 	case 1: if (Player3.Class == "Knight" || Player3.Class == "Archer" || Player3.Class == "Wizard" || Player3.Class == "Priest" || Player3.Class == "Blood Mage") {
 		switch (AttackWho) { // Swift Slash
@@ -790,6 +883,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 4: break;
 	case 5: break;
 	} break; // Player3
+
 	case 4: switch (AttackMoveNumber) {
 	case 1:
 		if (Player4.Class == "Knight" || Player4.Class == "Archer" || Player4.Class == "Wizard" || Player4.Class == "Priest") {
@@ -819,6 +913,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 4: break;
 	case 5: break;
 	} break; // Player4
+
 	case 5: switch (AttackMoveNumber) {
 	case 0: break;
 	case 1:
@@ -841,15 +936,14 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 				break;
 			}
 		}
-
 		break;
 	case 3:
 		if (Enemy.Class == "Goblin King") {
 			switch (AttackWho) {
-			case 1: Player1.HealthInt = Player1.HealthInt - (Enemy.AttackInt * 2); Player1.Health = to_string(Player1.HealthInt); break;
-			case 2: Player2.HealthInt = Player2.HealthInt - (Enemy.AttackInt * 2); Player2.Health = to_string(Player2.HealthInt); break;
-			case 3: Player3.HealthInt = Player3.HealthInt - (Enemy.AttackInt * 2); Player3.Health = to_string(Player3.HealthInt); break;
-			case 4: Player4.HealthInt = Player4.HealthInt - (Enemy.AttackInt * 2); Player4.Health = to_string(Player4.HealthInt); break;
+			case 1: Player1.HealthInt = Player1.HealthInt - (Enemy.AttackInt * 1.2); Player1.Health = to_string(Player1.HealthInt); break;
+			case 2: Player2.HealthInt = Player2.HealthInt - (Enemy.AttackInt * 1.2); Player2.Health = to_string(Player2.HealthInt); break;
+			case 3: Player3.HealthInt = Player3.HealthInt - (Enemy.AttackInt * 1.2); Player3.Health = to_string(Player3.HealthInt); break;
+			case 4: Player4.HealthInt = Player4.HealthInt - (Enemy.AttackInt * 1.2); Player4.Health = to_string(Player4.HealthInt); break;
 			}
 		}
 		break;
@@ -859,7 +953,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 			case 1:
 			case 2:
 			case 3:
-			case 4: Enemy.HealthInt = Enemy.HealthInt + 6; Enemy.Health = to_string(Enemy.HealthInt); break;
+			case 4: Enemy.HealthInt = Enemy.HealthInt + 4; Enemy.Health = to_string(Enemy.HealthInt); break;
 			}
 		}
 		break;
@@ -886,12 +980,37 @@ int AttackTargetAndAttack(int PLAYERS) {
 	int FreeVar; // Free Variable At My disposal
 	bool FreeBool = true; // Free Bool At my disposal : If "false" you may continue with your turn
 						  // Only Player 1 is sort of set up
+	int CaptureKeyPress;
+
 
 	switch (PLAYERS) {
 	case 1:
 		while (FreeBool) {
-			if (Player1.Alive == true) {
-				cin >> FreeVar; if (GameType == 4) { cin >> TheAttackChoice; }
+			if (Player1.Alive == true) { // Free Var
+				
+				do {
+					CaptureKeyPress = getch();
+					if (CaptureKeyPress == 49) { /// PRESS 1
+						FreeVar = 1;
+					}
+					else if (CaptureKeyPress == 50) { /// PRESS 2
+						FreeVar = 2;
+					}
+					else if (CaptureKeyPress == 51) { /// PRESS 3
+						FreeVar = 3;
+					}
+					else if (CaptureKeyPress == 52) {
+						FreeVar = 4;
+					}
+					else if (CaptureKeyPress == 53) {
+						FreeVar = 5;
+					}
+					else if (CaptureKeyPress == 48) {
+						FreeVar = 0;
+					}
+				} while (49 != CaptureKeyPress && 50 != CaptureKeyPress && 51 != CaptureKeyPress && 52 != CaptureKeyPress && 53 != CaptureKeyPress && 48 != CaptureKeyPress); /// UNCOOPERATIVE
+
+				if (GameType == 4) { cin >> TheAttackChoice; }
 				else { TheAttackChoice = 5; }
 			}
 			else { Player1.AtKChoice = FreeVar = 0; }
@@ -911,7 +1030,10 @@ int AttackTargetAndAttack(int PLAYERS) {
 	case 2:
 		while (FreeBool) {
 			if (Player2.Alive == true) {
-				cin >> FreeVar; if (GameType == 4) { cin >> TheAttackChoice; }
+				
+			
+				
+				if (GameType == 4) { cin >> TheAttackChoice; }
 				else { TheAttackChoice = 5; }
 			}
 			else { Player2.AtKChoice = FreeVar = 0; }
@@ -1015,6 +1137,8 @@ int TalkingKnightQuest(string ThisIS, string ThisIS2, int ThisColor) {
 	moveto((maxX / 2) - (WIDTH / 2), (maxY / 2) - (HIEGHT)* 1.95);
 	moverel(0, (HIEGHT));
 	outtext(Sample.c_str());
+	moveto((maxX / 2) - (WIDTH / 2), (maxY / 2) - (HIEGHT)* 1.95);
+	line((maxX / 2) - (WIDTH/1.65),(HIEGHT)*1.65, (maxX / 2) + (WIDTH/ 1.65),(HIEGHT)* 1.65);
 
 
 	return 0;
@@ -1317,6 +1441,7 @@ void BarsForPlayers(int PlayerNumber, int ThePower) {
 }
 void DividingUpTheScreenBoss(int x) {
 	cleardevice();
+	int y;
 
 #pragma region TheExInts
 	// May make these Integers Global soon
@@ -1365,53 +1490,8 @@ void DividingUpTheScreenBoss(int x) {
 	*/
 
 #pragma endregion 
-	if (GameType == 1) {
-#pragma region GoblinKingSetup
-		WIDTH = textwidth(GoblinKingWord.c_str());
-		moveto((maxX / 2) - (maxX / 6), MaxY1 * 0.20); // New Name
-		setcolor(enemyColor);
-		settextstyle(1, 0, 5);
-		outtext(GoblinKingWord.c_str());
-		moveto(MaxX * 1.36 - (maxX / 250), (MaxY1 * 0.20) + (maxY / 13));
-		setcolor(15);
-		settextstyle(1, 0, 1);
-		outtext(HealthPoints.c_str());
-		moverel(SmallMovementVar, 0);
-		setcolor(enemyColor);
-		// Draw a box around it using the text width ad height function
-		Enemy.Health = to_string(Enemy.HealthInt);
-
-		setlinestyle(1, 0, 4);
-		ThisPositionXEnemy = getx();
-		ThisPositionYEnemy = gety();
-		setcolor(0);
-		bar(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 7), ThisPositionYEnemy + (maxY / 400));
-
-		setcolor(enemyColor);
-		outtext(Enemy.Health.c_str());
-		setcolor(15);
-		moveto(MaxX * 1.18 - (maxX / 250), ((MaxY1 * 0.20) + (maxY / 9))); // * 17
-		outtext(Power.c_str());
-		moverel(SmallMovementVar, 0);
-		setcolor(enemyColor);
-		setlinestyle(1, 0, 2);
-		ThisPositionXEnemy = getx();
-		ThisPositionYEnemy = gety();
-		setcolor(0);
-		bar(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 7), ThisPositionYEnemy + (maxY / 50));
-		setcolor(enemyColor);
-		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 7), ThisPositionYEnemy + (maxY / 50));
-		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 49), ThisPositionYEnemy + (maxY / 50));
-		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 24.5), ThisPositionYEnemy + (maxY / 50));
-		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 16.4), ThisPositionYEnemy + (maxY / 50));
-		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 12.25), ThisPositionYEnemy + (maxY / 50));
-		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 9.8), ThisPositionYEnemy + (maxY / 50));
-		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 8.17), ThisPositionYEnemy + (maxY / 50));
-		BarsForPlayers(5, Enemy.PowerInt);
-		setlinestyle(1, 0, 2);
-
-#pragma endregion
-#pragma region Player1SimglePlayerSetUp
+	if (GameType == 1){
+#pragma region Player1SinglePlayerSetUp
 		int ThisIsATest = MaxX7 - (maxX / 11); // Basic Idea: Take the last val and put it with the new one
 		moveto(ThisIsATest, MaxY2 * 0.62);
 		settextstyle(1, 0, 3);
@@ -1464,6 +1544,52 @@ void DividingUpTheScreenBoss(int x) {
 
 
 #pragma endregion
+#pragma region GoblinKingSetup
+		WIDTH = textwidth(GoblinKingWord.c_str());
+		moveto((maxX / 2) - (maxX / 6), MaxY1 * 0.20); // New Name
+		setcolor(enemyColor);
+		settextstyle(1, 0, 5);
+		outtext(GoblinKingWord.c_str());
+		moveto(MaxX * 1.36 - (maxX / 250), (MaxY1 * 0.20) + (maxY / 13));
+		setcolor(15);
+		settextstyle(1, 0, 1);
+		outtext(HealthPoints.c_str());
+		moverel(SmallMovementVar, 0);
+		setcolor(enemyColor);
+		// Draw a box around it using the text width ad height function
+		Enemy.Health = to_string(Enemy.HealthInt);
+
+		setlinestyle(1, 0, 4);
+		ThisPositionXEnemy = getx();
+		ThisPositionYEnemy = gety();
+		setcolor(0);
+		bar(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 7), ThisPositionYEnemy + (maxY / 400));
+
+		setcolor(enemyColor);
+		outtext(Enemy.Health.c_str());
+		setcolor(15);
+		moveto(MaxX * 1.18 - (maxX / 250), ((MaxY1 * 0.20) + (maxY / 9))); // * 17
+		outtext(Power.c_str());
+		moverel(SmallMovementVar, 0);
+		setcolor(enemyColor);
+		setlinestyle(1, 0, 2);
+		ThisPositionXEnemy = getx();
+		ThisPositionYEnemy = gety();
+		setcolor(0);
+		bar(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 7), ThisPositionYEnemy + (maxY / 50));
+		setcolor(enemyColor);
+		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 7), ThisPositionYEnemy + (maxY / 50));
+		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 49), ThisPositionYEnemy + (maxY / 50));
+		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 24.5), ThisPositionYEnemy + (maxY / 50));
+		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 16.4), ThisPositionYEnemy + (maxY / 50));
+		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 12.25), ThisPositionYEnemy + (maxY / 50));
+		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 9.8), ThisPositionYEnemy + (maxY / 50));
+		rectangle(ThisPositionXEnemy, ThisPositionYEnemy, ThisPositionXEnemy + (maxX / 8.17), ThisPositionYEnemy + (maxY / 50));
+		BarsForPlayers(5, Enemy.PowerInt);
+		setlinestyle(1, 0, 2);
+
+#pragma endregion
+
 	}
 	if (GameType == 2 || GameType == 3 || GameType == 4) {
 #pragma region DragonSetup
@@ -1718,20 +1844,21 @@ void DividingUpTheScreenBoss(int x) {
 	int Dialouge = (((maxX / 100)) - (MaxX8 - (maxX / 100)) / 25);
 	WIDTH = textwidth(AttackWord.c_str());
 
-	switch (x) {
-	case 1: setcolor(player1Color); Generic = Player1; break;
-	case 2: setcolor(player2Color); Generic = Player2; break;
-	case 3: setcolor(player3Color); Generic = Player3; break;
-	case 4: setcolor(player4Color); Generic = Player4; break;
-	case 5: setcolor(enemyColor); break;
-	}
+		switch (x) {
+		case 1: Generic = Player1; y = player1Color; break;
+		case 2: Generic = Player2; y = player2Color; break;
+		case 3: Generic = Player3; y = player3Color; break;
+		case 4: Generic = Player4; y = player4Color; break;
+		case 5: y = enemyColor; break;
+		} setcolor(enemyColor);
 	rectangle(0, MaxY3, maxX, MaxY4); // Main Rectangle
 	rectangle((maxX / 100), (MaxY3 + (maxX / 100)), (MaxX8 - (maxX / 100)), (MaxY4 - (maxX / 100))); // Far Box to the Left(inside the main one)
 
-	if (maxX < 1500) {
-		setcolor(15);
+	if (maxX <= 1500) {
 		settextstyle(1, 0, 3);
+		setcolor(y);
 		moveto((MaxX / 100) + (WIDTH / 2), (MaxY3 + (maxX / 100)) - Dialouge); outtext(AttackWord.c_str());
+		setcolor(15);
 		settextstyle(1, 0, 2);
 		moveto((MaxX5 * -1) + (WIDTH / 1.20), 3 * (maxY / 4) + (Dialouge * 2)); outtext(Generic.AtkStr1.c_str());
 		moveto((MaxX5 * -1) + (WIDTH * 1.85), 3 * (maxY / 4) + (Dialouge * 2)); outtext(Generic.AtkStr2.c_str());
@@ -1740,24 +1867,26 @@ void DividingUpTheScreenBoss(int x) {
 		moveto((MaxX5 * -1) + (WIDTH / 1.20), 3 * (maxY / 4) - (Dialouge * 2)); outtext(Generic.AtkStr5.c_str());
 		moveto((MaxX5 * -1) + (WIDTH * 1.85), 3 * (maxY / 4) - (Dialouge * 2)); outtext(Wait.c_str());
 	}
-	else { 
+	else {
 		setcolor(15);
 		settextstyle(1, 0, 3);
 		WIDTH = textwidth(AttackWord.c_str());
 		moveto((MaxX / 100) - ((MaxX / 100) + (MaxX8 - (maxX / 100)) / 2) - (WIDTH / 2), MaxY3);
-		
+
 	}
 
-	switch (x) {
-	case 1: setcolor(player1Color); break;
-	case 2: setcolor(player2Color); break;
-	case 3: setcolor(player3Color); break;
-	case 4: setcolor(player4Color); break;
-	case 5: setcolor(enemyColor); break;
-	}
-	rectangle(MaxX8, MaxY3, maxX, MaxY4); // The Dividing box
+	setcolor(enemyColor);
+	
 	rectangle((MaxX8 + (maxX / 100)), (MaxY3 + (maxX / 100)), (maxX - (maxX / 100)), (MaxY4 - (maxX / 100))); // The Box farthest to the Right 
-	system("pause");
+	rectangle(0, 10, maxX, MaxX3);
+	rectangle(13, 23, maxX - 13, MaxY3 - 13);
+
+		setcolor(enemyColor2);
+		floodfill(MaxX8, (MaxY3 + ((MaxY4 - MaxY3)/2)), enemyColor);
+		floodfill(5, 17, enemyColor);
+		setcolor(enemyColor);
+
+	//system("pause");
 #pragma endregion
 }
 void NameInput() {
@@ -1773,10 +1902,13 @@ void NameInput() {
 		else if (CaptureKeyPress == 50) { /// PRESS 2
 			GameType = 2;
 		}
-		else if (CaptureKeyPress == 51) { /// PRESS 2
+		else if (CaptureKeyPress == 51) { /// PRESS 3
 			GameType = 3;
 		}
-	} while (49 != CaptureKeyPress && 50 != CaptureKeyPress && 51 != CaptureKeyPress); /// UNCOOPERATIVE
+		else if (CaptureKeyPress == 57) {
+			GameType = 9;
+		}
+	} while (49 != CaptureKeyPress && 50 != CaptureKeyPress && 51 != CaptureKeyPress && 57 != CaptureKeyPress); /// UNCOOPERATIVE
 
 	cleardevice();
 	if (GameType == 1) {
@@ -1825,12 +1957,14 @@ void EndTurnAffects(bool Endturn, int Player) {
 	if (Generic.Alive == true) {
 		Generic.Power = to_string(Generic.PowerInt);
 		if (Generic.PowerInt >= 4) {
-			Generic.PowerInt = 4;}
-			Generic.Power = to_string(Generic.PowerInt);
+			Generic.PowerInt = 4;
+		}
+		Generic.Power = to_string(Generic.PowerInt);
 
 		if (Generic.PowerInt < 0) {
-			Generic.PowerInt = 0;}
-			Generic.Power = to_string(Generic.PowerInt);
+			Generic.PowerInt = 0;
+		}
+		Generic.Power = to_string(Generic.PowerInt);
 
 		if (Generic.HealthInt > Generic.SetHealth) {
 			Generic.HealthInt = (Generic.SetHealth);
@@ -1842,28 +1976,31 @@ void EndTurnAffects(bool Endturn, int Player) {
 		}
 	}
 	if (Player1.Alive == true) {
-		if (Endturn == true) { 
+		if (Endturn == true) {
 			if (Player1.ThornInTheSide == true) { Player1.HealthInt--; theConversionFromIntToString(Player1.HealthInt, Player1.Health); }
-			Player1.PowerInt++; }
+			Player1.PowerInt++;
+		}
 	}
 	if (Player2.Alive == true) {
-			if (Endturn == true) { 
-				if (Player2.ThornInTheSide == true) { Player2.HealthInt--; theConversionFromIntToString(Player2.HealthInt, Player2.Health); }
-				Player2.PowerInt++; }
+		if (Endturn == true) {
+			if (Player2.ThornInTheSide == true) { Player2.HealthInt--; theConversionFromIntToString(Player2.HealthInt, Player2.Health); }
+			Player2.PowerInt++;
 		}
+	}
 	if (Player3.Alive == true) {
-			if (Endturn == true) { 
-				if (Player3.ThornInTheSide == true) { Player3.HealthInt--; theConversionFromIntToString(Player3.HealthInt, Player3.Health); }
-				Player3.PowerInt++; }
+		if (Endturn == true) {
+			if (Player3.ThornInTheSide == true) { Player3.HealthInt--; theConversionFromIntToString(Player3.HealthInt, Player3.Health); }
+			Player3.PowerInt++;
 		}
+	}
 	if (Player4.Alive == true) {
-			if (Endturn == true) { 
-				if (Player4.ThornInTheSide == true) { Player4.HealthInt--; theConversionFromIntToString(Player4.HealthInt, Player4.Health); }
-				Player4.PowerInt++; }
+		if (Endturn == true) {
+			if (Player4.ThornInTheSide == true) { Player4.HealthInt--; theConversionFromIntToString(Player4.HealthInt, Player4.Health); }
+			Player4.PowerInt++;
 		}
+	}
 	if (Enemy.Alive == true) {
-		if (Enemy.Alive == true) {
-			if (Endturn == true) { 
+			if (Endturn == true) {
 				if (Enemy.ThornInTheSide == true) { Enemy.HealthInt--; theConversionFromIntToString(Enemy.HealthInt, Enemy.Health); }
 				Enemy.PowerInt = Enemy.PowerInt + 2;
 			}
@@ -1879,7 +2016,6 @@ void EndTurnAffects(bool Endturn, int Player) {
 			if (Enemy.HealthInt < 0) {
 				Enemy.HealthInt = 0;
 				Enemy.Health = to_string(Enemy.HealthInt);
-			}
 		}
 	}
 }
@@ -1898,22 +2034,22 @@ void DeadAliveLossWin(string Player1Health, string Player2Health, string Player3
 
 	switch (GameType) {
 	case 1:
-		if (Player1.Alive == false && Enemy.Alive == true) { GameStillGoing = false; moveto(0, 0); outtext(GAMEOVER.c_str()); }
-		if (Player1.Alive == true && Enemy.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(YOUWIN.c_str()); }
+		if (Player1.Alive == false && Enemy.Alive == true) { GameStillGoing = false; moveto(0, 0); outtext(GAMEOVER.c_str()); getch(); }
+		if (Player1.Alive == true && Enemy.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(YOUWIN.c_str()); getch(); }
 	case 2:
-		if ((Player1.Alive == true || Player2.Alive == true || Player3.Alive == true || Player4.Alive == true) && Enemy.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(YOUWIN.c_str()); }
-		if (Player1.Alive == false && Player2.Alive == false && Player3.Alive == false && Player4.Alive == false && Enemy.Alive == true) { GameStillGoing = false; moveto(0, 0); outtext(GAMEOVER.c_str()); }
+		if ((Player1.Alive == true || Player2.Alive == true || Player3.Alive == true || Player4.Alive == true) && Enemy.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(YOUWIN.c_str()); getch(); }
+		if (Player1.Alive == false && Player2.Alive == false && Player3.Alive == false && Player4.Alive == false && Enemy.Alive == true) { GameStillGoing = false; moveto(0, 0); outtext(GAMEOVER.c_str()); getch(); }
 		break; // Dragon
 	case 3:
-		if ((Player1.Alive == true || Player2.Alive == true || Player3.Alive == true || Player4.Alive == true) && Enemy.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(YOUWIN.c_str()); }
-		if (Player1.Alive == false && Player2.Alive == false && Player3.Alive == false && Player4.Alive == false && Enemy.Alive == true) { GameStillGoing = false; moveto(0, 0); outtext(GAMEOVER.c_str()); }
+		if ((Player1.Alive == true || Player2.Alive == true || Player3.Alive == true || Player4.Alive == true) && Enemy.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(YOUWIN.c_str()); getch(); }
+		if (Player1.Alive == false && Player2.Alive == false && Player3.Alive == false && Player4.Alive == false && Enemy.Alive == true) { GameStillGoing = false; moveto(0, 0); outtext(GAMEOVER.c_str()); getch(); }
 		break; // Lich
-	case 4: // Still working in progress (What the heck did i just type)
+	/*case 4: // Still working in progress (What the heck did i just type)
 		if (Player1.Alive == true && Player2.Alive == false && Player3.Alive == false && Player4.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(THEWINNERIS.c_str()); moverel(15, 0); outtext(Player1.Name.c_str()); }
 		if (Player2.Alive == true && Player3.Alive == false && Player4.Alive == false && Player1.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(THEWINNERIS.c_str()); moverel(15, 0); outtext(Player2.Name.c_str()); }
 		if (Player3.Alive == true && Player4.Alive == false && Player1.Alive == false && Player2.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(THEWINNERIS.c_str()); moverel(15, 0); outtext(Player3.Name.c_str()); }
 		if (Player4.Alive == true && Player1.Alive == false && Player1.Alive == false && Player3.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(THEWINNERIS.c_str()); moverel(15, 0); outtext(Player4.Name.c_str()); }
-		break; // Gladiator Pit
+		break; // Gladiator Pit*/
 	}
 	EndTurnAffects(Endturn, PlayerTurn);
 
@@ -1921,7 +2057,17 @@ void DeadAliveLossWin(string Player1Health, string Player2Health, string Player3
 
 int ClearStats() {
 	//Clears all stats for the characters
-	Player1.Alive = false; Player2.Alive = false; Player3.Alive = false; Player4.Alive = false; Enemy.Alive = false;
+	Player1.Alive = false;
+	Player2.Alive = false;
+	Player3.Alive = false;
+	Player4.Alive = false;
+	Enemy.Alive = false;
+	Player1.saveHealthTurn = false; 
+	Player2.saveHealthTurn = false; 
+	Player3.saveHealthTurn = false; 
+	Player4.saveHealthTurn = false;
+	Enemy.saveHealthTurn = false;
+
 	Player1.AttackInt, Player2.AttackInt, Player3.AttackInt, Player4.AttackInt, Enemy.AttackInt = 0;
 	Player1.Class, Player2.Class, Player3.Class, Player4.Class, Enemy.Class = " ";
 	GameStillGoing = true;
