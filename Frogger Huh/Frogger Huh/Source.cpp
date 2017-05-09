@@ -384,7 +384,7 @@ string StringBuilder() {
 	string BufferedReader = "";
 	while (BufferedReader != "RETURN") {
 		if (GLOBAL.isPressed) {
-			system("cls");
+			//system("cls");
 			BufferedReader = GLOBAL.Significance;
 			if (BufferedReader != "RETURN" && BufferedReader != "Left Mouse Click") {
 				if (BufferedReader != "BACK") {

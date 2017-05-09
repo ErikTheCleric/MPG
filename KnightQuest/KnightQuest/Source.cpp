@@ -38,8 +38,9 @@
 // Healing should also apply to the SaveHealth to make sure that the health is carried out
 // Making the Rim (Boxes) of the game the color of the Boss
 // Putting more into hte screen and the shaping the combat. Idea: Make an arrow that points at the player attacking 
+// Ctrl + M + O 
 
-// Main Obj: Make the Attacks work and Deaths work. I'm very proud of the progress with the graphics, now focus on making it al work
+// Main Obj: Make the Attacks work and Deaths work. I'm very proud of the progress with the graphics, now focus on making it all work
 #include <iostream>
 #include <Windows.h>
 #include <windows.h>
@@ -717,6 +718,7 @@ int main() {
 				AttackTargetAndAttack(TheNumberS);
 				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, 1, forTrueFalsePower, TheNumberS);
 				TheNumberS++;
+				Sleep(250);
 				if (TheNumberS == 2) { TheNumberS = 5; forTrueFalsePower = false; }
 				if (TheNumberS == 6) { TheNumberS = 1; forTrueFalsePower = true; }
 			}
@@ -767,13 +769,14 @@ int main() {
 void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	switch (PlayerNumber) {
 	case 1: switch (AttackMoveNumber) {
+
 	case 1:
 		if (Player1.Class == "Knight" || Player1.Class == "Archer" || Player1.Class == "Wizard" || Player1.Class == "Priest" || Player1.Class == "Cavalier") {
 			switch (AttackWho) { // Swift Slash
-			case 1: Player1.HealthInt = Player1.HealthInt - Player1.AttackInt; Player1.Health = to_string(Player1.HealthInt); break;
 			case 2: Player2.HealthInt = Player2.HealthInt - Player1.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
 			case 3: Player3.HealthInt = Player3.HealthInt - Player1.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
 			case 4: Player4.HealthInt = Player4.HealthInt - Player1.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
+			case 1:
 			case 5: Enemy.HealthInt = Enemy.HealthInt - Player1.AttackInt; Enemy.Health = to_string(Enemy.HealthInt);
 				break;
 			}
@@ -853,12 +856,13 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	} break; // Player1
 
 	case 2: switch (AttackMoveNumber) {
+
 	case 1: if (Player2.Class == "Knight" || Player2.Class == "Archer" || Player2.Class == "Wizard" || Player2.Class == "Priest" || Player2.Class == "Juggernaught") {
 		switch (AttackWho) { // Swift Slash
 		case 1: Player1.HealthInt = Player1.HealthInt - Player2.AttackInt; Player1.Health = to_string(Player1.HealthInt); break;
-		case 2: Player2.HealthInt = Player2.HealthInt - Player2.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
 		case 3: Player3.HealthInt = Player3.HealthInt - Player2.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
 		case 4: Player4.HealthInt = Player4.HealthInt - Player2.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
+		case 2:
 		case 5: Enemy.HealthInt = Enemy.HealthInt - Player2.AttackInt; Enemy.Health = to_string(Enemy.HealthInt); break;
 		}
 	} break;
@@ -1030,7 +1034,27 @@ int AttackTargetAndAttack(int PLAYERS) {
 	case 2:
 		while (FreeBool) {
 			if (Player2.Alive == true) {
-				
+				do {
+					CaptureKeyPress = getch();
+					if (CaptureKeyPress == 49) { /// PRESS 1
+						FreeVar = 1;
+					}
+					else if (CaptureKeyPress == 50) { /// PRESS 2
+						FreeVar = 2;
+					}
+					else if (CaptureKeyPress == 51) { /// PRESS 3
+						FreeVar = 3;
+					}
+					else if (CaptureKeyPress == 52) {
+						FreeVar = 4;
+					}
+					else if (CaptureKeyPress == 53) {
+						FreeVar = 5;
+					}
+					else if (CaptureKeyPress == 48) {
+						FreeVar = 0;
+					}
+				} while (49 != CaptureKeyPress && 50 != CaptureKeyPress && 51 != CaptureKeyPress && 52 != CaptureKeyPress && 53 != CaptureKeyPress && 48 != CaptureKeyPress); /// UNCOOPERATIVE
 			
 				
 				if (GameType == 4) { cin >> TheAttackChoice; }
@@ -1053,7 +1077,28 @@ int AttackTargetAndAttack(int PLAYERS) {
 	case 3:
 		while (FreeBool) {
 			if (Player3.Alive == true) {
-				cin >> FreeVar; if (GameType == 4) { cin >> TheAttackChoice; }
+				do {
+					CaptureKeyPress = getch();
+					if (CaptureKeyPress == 49) { /// PRESS 1
+						FreeVar = 1;
+					}
+					else if (CaptureKeyPress == 50) { /// PRESS 2
+						FreeVar = 2;
+					}
+					else if (CaptureKeyPress == 51) { /// PRESS 3
+						FreeVar = 3;
+					}
+					else if (CaptureKeyPress == 52) {
+						FreeVar = 4;
+					}
+					else if (CaptureKeyPress == 53) {
+						FreeVar = 5;
+					}
+					else if (CaptureKeyPress == 48) {
+						FreeVar = 0;
+					}
+				} while (49 != CaptureKeyPress && 50 != CaptureKeyPress && 51 != CaptureKeyPress && 52 != CaptureKeyPress && 53 != CaptureKeyPress && 48 != CaptureKeyPress); /// UNCOOPERATIVE
+				if (GameType == 4) { cin >> TheAttackChoice; }
 				else { TheAttackChoice = 5; }
 			}
 			else { Player3.AtKChoice = FreeVar = 0; }
@@ -1073,7 +1118,28 @@ int AttackTargetAndAttack(int PLAYERS) {
 	case 4:
 		while (FreeBool) {
 			if (Player4.Alive == true) {
-				cin >> FreeVar; if (GameType == 4) { cin >> TheAttackChoice; }
+				do {
+					CaptureKeyPress = getch();
+					if (CaptureKeyPress == 49) { /// PRESS 1
+						FreeVar = 1;
+					}
+					else if (CaptureKeyPress == 50) { /// PRESS 2
+						FreeVar = 2;
+					}
+					else if (CaptureKeyPress == 51) { /// PRESS 3
+						FreeVar = 3;
+					}
+					else if (CaptureKeyPress == 52) {
+						FreeVar = 4;
+					}
+					else if (CaptureKeyPress == 53) {
+						FreeVar = 5;
+					}
+					else if (CaptureKeyPress == 48) {
+						FreeVar = 0;
+					}
+				} while (49 != CaptureKeyPress && 50 != CaptureKeyPress && 51 != CaptureKeyPress && 52 != CaptureKeyPress && 53 != CaptureKeyPress && 48 != CaptureKeyPress); /// UNCOOPERATIVE 
+				if (GameType == 4) { cin >> TheAttackChoice; }
 				else { TheAttackChoice = 5; }
 			}
 			else { Player4.AtKChoice = FreeVar = 0; }
@@ -1138,7 +1204,8 @@ int TalkingKnightQuest(string ThisIS, string ThisIS2, int ThisColor) {
 	moverel(0, (HIEGHT));
 	outtext(Sample.c_str());
 	moveto((maxX / 2) - (WIDTH / 2), (maxY / 2) - (HIEGHT)* 1.95);
-	line((maxX / 2) - (WIDTH/1.65),(HIEGHT)*1.65, (maxX / 2) + (WIDTH/ 1.65),(HIEGHT)* 1.65);
+	if (maxX <= 1500) { line((maxX / 2) - (WIDTH / 1.65), (HIEGHT)*1.65, (maxX / 2) + (WIDTH / 1.65), (HIEGHT)* 1.65); }
+	if (maxX > 1500) { setlinestyle(1,0,4); rectangle((maxX / 2) - (WIDTH / 1.65), (HIEGHT) * 1.65, (maxX / 2) + (WIDTH / 1.65), (HIEGHT)* 4.05); }
 
 
 	return 0;
@@ -1878,9 +1945,11 @@ void DividingUpTheScreenBoss(int x) {
 	setcolor(enemyColor);
 	
 	rectangle((MaxX8 + (maxX / 100)), (MaxY3 + (maxX / 100)), (maxX - (maxX / 100)), (MaxY4 - (maxX / 100))); // The Box farthest to the Right 
-	rectangle(0, 10, maxX, MaxX3);
-	rectangle(13, 23, maxX - 13, MaxY3 - 13);
+	
+	rectangle(0, 10, maxX, MaxY3);
 
+	rectangle(13, 23, maxX - 13, MaxY3 - 13);
+	
 		setcolor(enemyColor2);
 		floodfill(MaxX8, (MaxY3 + ((MaxY4 - MaxY3)/2)), enemyColor);
 		floodfill(5, 17, enemyColor);
@@ -2044,12 +2113,6 @@ void DeadAliveLossWin(string Player1Health, string Player2Health, string Player3
 		if ((Player1.Alive == true || Player2.Alive == true || Player3.Alive == true || Player4.Alive == true) && Enemy.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(YOUWIN.c_str()); getch(); }
 		if (Player1.Alive == false && Player2.Alive == false && Player3.Alive == false && Player4.Alive == false && Enemy.Alive == true) { GameStillGoing = false; moveto(0, 0); outtext(GAMEOVER.c_str()); getch(); }
 		break; // Lich
-	/*case 4: // Still working in progress (What the heck did i just type)
-		if (Player1.Alive == true && Player2.Alive == false && Player3.Alive == false && Player4.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(THEWINNERIS.c_str()); moverel(15, 0); outtext(Player1.Name.c_str()); }
-		if (Player2.Alive == true && Player3.Alive == false && Player4.Alive == false && Player1.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(THEWINNERIS.c_str()); moverel(15, 0); outtext(Player2.Name.c_str()); }
-		if (Player3.Alive == true && Player4.Alive == false && Player1.Alive == false && Player2.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(THEWINNERIS.c_str()); moverel(15, 0); outtext(Player3.Name.c_str()); }
-		if (Player4.Alive == true && Player1.Alive == false && Player1.Alive == false && Player3.Alive == false) { GameStillGoing = false; moveto(0, 0); outtext(THEWINNERIS.c_str()); moverel(15, 0); outtext(Player4.Name.c_str()); }
-		break; // Gladiator Pit*/
 	}
 	EndTurnAffects(Endturn, PlayerTurn);
 
