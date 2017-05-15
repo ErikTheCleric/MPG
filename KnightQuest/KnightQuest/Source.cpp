@@ -1217,6 +1217,7 @@ int SmallMovementVar = maxX / 111;
 void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho);
 int AttackTargetAndAttack(int PLAYERS);
 int theConversionFromIntToString(int PlayerConvertInt, string PlayerConvertString);
+void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, string FourthLine, int Color1, int Color2, int Color3, int Color4);
 int TalkingKnightQuest(string ThisIS, string ThisIS2, int ThisColor);
 int TalkingOnTwoLines(string ThisIS, string ThisIS2, int ThisColor);
 int TalkingOnFourLines(string ThisIS, string ThisIS2, string ThisIS3, string ThisIS4, int ThisColor);
@@ -3007,6 +3008,46 @@ int theConversionFromIntToString(int PlayerConvertInt, string PlayerConvertStrin
 
 }
 
+void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, string FourthLine, int Color1, int Color2, int Color3, int Color4) {
+	
+
+	int MaxX18 = maxX / 6 * 4; // 2/3 of the screen
+	int MaxY13 = maxY * 8 / 15;
+	int WIDTH1;
+	int HEIGHT1;
+	string FreeWords;
+
+
+	settextstyle(1, 0, 3);
+	moveto((MaxX18), (MaxY13 + (maxX / 100)));
+	FreeWords = FirstLine;
+	WIDTH1 = textwidth(FreeWords.c_str);
+	HEIGHT1 = textheight(FreeWords.c_str);
+	setcolor(Color1);
+	moverel(-(WIDTH1 / 2), HEIGHT1);
+	outtext(FreeWords.c_str);
+
+	FreeWords = SecondLine;
+	WIDTH1 = textwidth(FreeWords.c_str);
+	setcolor(Color2);
+	moverel(-(WIDTH1 / 2), HEIGHT1);
+	outtext(FreeWords.c_str);
+
+	FreeWords = ThirdLine;
+	WIDTH1 = textwidth(FreeWords.c_str);
+	setcolor(Color3);
+	moverel(-(WIDTH1 / 2), HEIGHT1);
+	outtext(FreeWords.c_str);
+
+	FreeWords = FourthLine;
+	WIDTH1 = textwidth(FreeWords.c_str);
+	setcolor(Color4);
+	moverel(-(WIDTH1 / 2), HEIGHT1);
+	outtext(FreeWords.c_str);
+	setcolor(15);
+	
+}
+
 int TalkingKnightQuest(string ThisIS, string ThisIS2, int ThisColor) {
 
 	int HIEGHT;
@@ -4363,6 +4404,8 @@ void DividingUpTheScreenBoss(int x) {
 
 	}
 #pragma region BoxSetup
+
+	//TalkingInSmallBox(Player1.Name, Player2.Name, Player3.Name, Player4.Name, player1Color, player2Color, player3Color, player4Color);
 
 	setlinestyle(1, 2, 4);
 	int Dialouge = (((maxX / 100)) - (MaxX8 - (maxX / 100)) / 25);
