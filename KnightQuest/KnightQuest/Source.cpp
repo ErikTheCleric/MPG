@@ -42,10 +42,10 @@
 // Make a function that has a thing with all the affects  
 // Player 2 Attacks done 
 //		> Get the Player 3/4 Attacks   --    (Done) sort of, Don't forget to add after affects 
-//	    > Get the Enemy Attacks
+//	    > Get the Enemy Attacks        --    ()
 //		> Have a Working Name system
 //		> Have the After affects
-//		> Have that little text box off to the side
+//		> Have that little text box off to the side   --   (Done)
 //      > We are very close, one week left
 
 // Main Obj: Make the Attacks work and Deaths work. I'm very proud of the progress with the graphics, now focus on making it all work
@@ -328,6 +328,8 @@ struct PlayerStruct {
 
 			enemyColor2 = 13; // Light Purple
 
+			AtkInt1 = 1; AtkInt2 = 0; AtkInt3 = 3; AtkInt4 = 3; AtkInt5 = 3;
+
 			Alive = true;
 
 			Class = "Dragon";
@@ -351,6 +353,8 @@ struct PlayerStruct {
 			enemyColor = 9; // Light Blue
 
 			enemyColor2 = 3; // Cyan
+
+			AtkInt1 = 1; AtkInt2 = 2; AtkInt3 = 3; AtkInt4 = 4; AtkInt5 = 5;
 
 			Alive = true;
 
@@ -1213,6 +1217,7 @@ int ThisPositionX1, ThisPositionY1, ThisPositionX2, ThisPositionY2, ThisPosition
 int GrDriver, GrMode, ErrorCode;
 int maxX, maxY, penColor, Sppeedd;
 int SmallMovementVar = maxX / 111;
+int ForTheTellingText;
 
 void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho);
 int AttackTargetAndAttack(int PLAYERS);
@@ -1276,8 +1281,10 @@ int main() {
 
 			while (GameStillGoing) {
 
+				TheTextExamplifer(0);
 				DividingUpTheScreenBoss(TheNumberS); // Screen Check
 				AttackTargetAndAttack(TheNumberS);
+				TheTextExamplifer(ForTheTellingText);
 				DividingUpTheScreenBoss(TheNumberS); // Givin to show the after of the attack
 													 // Add a getch()? eh...
 				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, 1, forTrueFalsePower, TheNumberS);
@@ -1286,7 +1293,7 @@ int main() {
 				Sleep(250);
 				if (TheNumberS == 2) { TheNumberS = 5; forTrueFalsePower = false; }
 				if (TheNumberS == 6) { TheNumberS = 1; forTrueFalsePower = true; }
-
+				getch();
 			}
 
 		}
@@ -1308,8 +1315,10 @@ int main() {
 			}
 			while (GameStillGoing) {
 
+				TheTextExamplifer(0);
 				DividingUpTheScreenBoss(TheNumberS); // Screen Check
 				AttackTargetAndAttack(TheNumberS);
+				TheTextExamplifer(ForTheTellingText);
 				DividingUpTheScreenBoss(TheNumberS);
 				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, forTrueFalsePower, TheNumberS);
 				TheNumberS++;
@@ -2475,7 +2484,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 	case 5: switch (AttackMoveNumber) {
 
-	case 0: break;
+	case 0: ForTheTellingText = 18; break;
 
 	case 1:
 
@@ -2483,13 +2492,13 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 			switch (AttackWho) {
 
-			case 1: Player1.HealthInt = Player1.HealthInt - Enemy.AttackInt; Player1.Health = to_string(Player1.HealthInt); break;
+			case 1: Player1.HealthInt = Player1.HealthInt - Enemy.AttackInt; Player1.Health = to_string(Player1.HealthInt); ForTheTellingText = 14; break;
 
-			case 2: Player2.HealthInt = Player2.HealthInt - Enemy.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
+			case 2: Player2.HealthInt = Player2.HealthInt - Enemy.AttackInt; Player2.Health = to_string(Player2.HealthInt); ForTheTellingText = 15; break;
 
-			case 3: Player3.HealthInt = Player3.HealthInt - Enemy.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
+			case 3: Player3.HealthInt = Player3.HealthInt - Enemy.AttackInt; Player3.Health = to_string(Player3.HealthInt); ForTheTellingText = 16; break;
 
-			case 4: Player4.HealthInt = Player4.HealthInt - Enemy.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
+			case 4: Player4.HealthInt = Player4.HealthInt - Enemy.AttackInt; Player4.Health = to_string(Player4.HealthInt); ForTheTellingText = 17; break;
 
 			}
 
@@ -2500,8 +2509,8 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 2:
 
 		if (Enemy.Class == "Goblin King") {
-
-			switch (AttackWho) {
+			ForTheTellingText = 1;
+			switch (AttackWho) { // Take no damage
 
 			case 1:
 
@@ -2516,33 +2525,62 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 			}
 
 		}
-
+		if (Enemy.Class == "Dragon") { // ROAR (Lose power)
+			switch (AttackWho)
+			{
+			case 1: Player1.PowerInt -= 1; Player4.PowerInt -= 1;
+				ForTheTellingText = 2;
+				break;
+			case 2: Player2.PowerInt -= 1; Player3.PowerInt -= 1;
+				ForTheTellingText = 3;
+				break;
+			case 3: Player3.PowerInt -= 1; Player2.PowerInt -= 1;
+				ForTheTellingText = 4;
+				break;
+			case 4: Player4.PowerInt -= 1; Player1.PowerInt -= 1;
+				ForTheTellingText = 5;
+				break;
+			}
+		}
 		break;
 
 	case 3:
 
 		if (Enemy.Class == "Goblin King") {
-
+			ForTheTellingText = 6;
 			switch (AttackWho) {
 
-			case 1: Player1.HealthInt = Player1.HealthInt - (Enemy.AttackInt + 2); Player1.Health = to_string(Player1.HealthInt); break;
+			case 1: Player1.HealthInt = Player1.HealthInt - (Enemy.AttackInt + 1); Player1.Health = to_string(Player1.HealthInt); break;
 
-			case 2: Player2.HealthInt = Player2.HealthInt - (Enemy.AttackInt + 2); Player2.Health = to_string(Player2.HealthInt); break;
+			case 2: Player2.HealthInt = Player2.HealthInt - (Enemy.AttackInt + 1); Player2.Health = to_string(Player2.HealthInt); break;
 
-			case 3: Player3.HealthInt = Player3.HealthInt - (Enemy.AttackInt + 2); Player3.Health = to_string(Player3.HealthInt); break;
+			case 3: Player3.HealthInt = Player3.HealthInt - (Enemy.AttackInt + 1); Player3.Health = to_string(Player3.HealthInt); break;
 
-			case 4: Player4.HealthInt = Player4.HealthInt - (Enemy.AttackInt + 2); Player4.Health = to_string(Player4.HealthInt); break;
+			case 4: Player4.HealthInt = Player4.HealthInt - (Enemy.AttackInt + 1); Player4.Health = to_string(Player4.HealthInt); break;
 
 			}
 
 		}
-
+		if (Enemy.Class == "Dragon") { // Tail Whip
+			switch (AttackWho)
+			{
+			case 1:
+			case 2:
+			case 3:
+			case 4: Player1.HealthInt -= 1; 
+				Player2.HealthInt -= 1;
+				Player3.HealthInt -= 1;
+				Player4.HealthInt -= 1;
+				ForTheTellingText = 7;
+				break;
+			}
+		}
 		break;
 
 	case 4:
 
 		if (Enemy.Class == "Goblin King") { // Drinking Ale, replenish life
-
+			ForTheTellingText = 8;
 			switch (AttackWho) {
 
 			case 1:
@@ -2556,7 +2594,30 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 			}
 
 		}
-
+		if (Enemy.Class == "Dragon") { // Incinarate (Hits two players)
+			switch (AttackWho)
+			{
+			case 1: Player2.HealthInt -= (Enemy.AttackInt + 2); Player2.Health = to_string(Player2.HealthInt);
+				Player4.HealthInt -= (Enemy.AttackInt + 2); Player4.Health = to_string(Player4.HealthInt);
+				ForTheTellingText = 9;
+				break;
+			case 2:
+				Player1.HealthInt -= (Enemy.AttackInt + 2); Player1.Health = to_string(Player1.HealthInt);
+				Player3.HealthInt -= (Enemy.AttackInt + 2); Player3.Health = to_string(Player3.HealthInt);
+				ForTheTellingText = 10;
+				break;
+			case 3:
+				Player4.HealthInt -= (Enemy.AttackInt + 2); Player4.Health = to_string(Player4.HealthInt);
+				Player3.HealthInt -= (Enemy.AttackInt + 2); Player3.Health = to_string(Player3.HealthInt);
+				ForTheTellingText = 11;	
+				break;
+			case 4:
+				Player2.HealthInt -= (Enemy.AttackInt + 2); Player2.Health = to_string(Player2.HealthInt);
+				Player1.HealthInt -= (Enemy.AttackInt + 2); Player1.Health = to_string(Player1.HealthInt);
+				ForTheTellingText = 12;
+				break;
+			}
+		}
 		break;
 
 	case 5:
@@ -2572,6 +2633,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 			case 3:
 
 			case 4: Player1.AttackInt = Player1.AttackInt - 1; Player1.Attack = to_string(Player1.AttackInt);
+				ForTheTellingText = 13;
 
 				break;
 
@@ -3056,7 +3118,32 @@ void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, st
 	outtext(FreeWords.c_str());
 	setcolor(15);
 }
+	void TheTextExamplifer(int ForTellingText) {
+	// Have the Text here, best part is that some can be reused
 
+		switch (ForTellingText) {
+		case 0: TalkingInSmallBox("", "", "", "", "", 15, 15, 15, 15, 15); break;
+		case 1: TalkingInSmallBox("The Goblin's Tough ", "Skin is immpossible", "to break through!", "", "Enemy: NO -HP", 15, 15, 15, 15, enemyColor); break;
+		case 2: TalkingInSmallBox("The Dragon gives", "a Mighty Roar that", "shakes the ground", "", "P4 & P1: -PWR", 15, 15, 15, 15, 4); break;
+		case 3: TalkingInSmallBox("The Dragon gives", "a Mighty Roar that", "shakes the ground", "", "P2 & P3: -PWR", 15, 15, 15, 15, 4); break;
+		case 4: TalkingInSmallBox("The Dragon gives", "a Mighty Roar that", "shakes the ground", "", "P1 & P3: -PWR", 15, 15, 15, 15, 4); break;
+		case 5: TalkingInSmallBox("The Dragon gives", "a Mighty Roar that", "shakes the ground", "", "P4 & P2: -PWR", 15, 15, 15, 15, 4); break;
+		case 6: TalkingInSmallBox("The Goblin hits ", "You with a Powerful", "Attack", "", "Player1: -HP", 15, 15, 15, 15, enemyColor); break;
+		case 7: TalkingInSmallBox("The Dragon gives", "a Mighty Roar that", "shakes the ground", "", "ALL: -HP", 15, 15, 15, 15, 4); break;
+		case 8: TalkingInSmallBox("The Goblin drinks", "some of his Ale", "and Beer...", "", "Enemy: +HP", 15, 15, 15, 15, enemyColor); break;
+		case 9: TalkingInSmallBox("The Dragon scorches", "the earth, burning", "some of the Heros", "", "P2 & P4: -HP", 15, 15, 15, 15, 4); break;
+		case 10: TalkingInSmallBox("The Dragon scorches", "the earth, burning", "some of the Heros", "", "P2 & P1: -HP", 15, 15, 15, 15, 4); break;
+		case 11: TalkingInSmallBox("The Dragon scorches", "the earth, burning", "some of the Heros", "", "P3 & P4: -HP", 15, 15, 15, 15, 4); break;
+		case 12: TalkingInSmallBox("The Dragon scorches", "the earth, burning", "some of the Heros", "", "P2 & P1: -HP", 15, 15, 15, 15, 4); break;
+		case 13: TalkingInSmallBox("The Goblin hits you", "extremely hard,", "You gasp for breath", "", "Player1: -ATK", 15, 15, 15, 15, enemyColor); break;
+		case 14: TalkingInSmallBox("The Enemies' Mighty", "Strength overpowers", Player1.Name, "", "Player1: -HP", 15, 15, player1Color, 15, enemyColor); break;
+		case 15: TalkingInSmallBox("The Enemies' Mighty", "Strength overpowers", Player2.Name, "", "Player2: -HP", 15, 15, player2Color, 15, enemyColor); break;
+		case 16: TalkingInSmallBox("The Enemies' Mighty", "Strength overpowers", Player3.Name, "", "Player3: -HP", 15, 15, player3Color, 15, enemyColor); break;
+		case 17: TalkingInSmallBox("The Enemies' Mighty", "Strength overpowers", Player4.Name, "", "Player4: -HP", 15, 15, player4Color, 15, enemyColor); break;
+		case 18: TalkingInSmallBox("", "The Beast takes", "a moment to rest...", "", "", 15, 15, 15, 15, 15); break;
+		
+		}
+	}
 int TalkingKnightQuest(string ThisIS, string ThisIS2, int ThisColor) {
 
 	int HIEGHT;
@@ -4414,7 +4501,7 @@ void DividingUpTheScreenBoss(int x) {
 	}
 #pragma region BoxSetup
 
-	TalkingInSmallBox("The Dragon Gives", "A Powerful Roar", "(This Is A Test)", "", "Player4: -5 ATK ", 15, 15, 15, 15, player3Color);
+	//TalkingInSmallBox("The Dragon Gives", "A Powerful Roar", "(This Is A Test)", "", "Player4: -5 ATK ", 15, 15, 15, 15, player3Color);
 
 	setlinestyle(1, 2, 4);
 	int Dialouge = (((maxX / 100)) - (MaxX8 - (maxX / 100)) / 25);
