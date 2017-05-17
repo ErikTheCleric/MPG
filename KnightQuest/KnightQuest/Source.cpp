@@ -1217,14 +1217,13 @@ int SmallMovementVar = maxX / 111;
 void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho);
 int AttackTargetAndAttack(int PLAYERS);
 int theConversionFromIntToString(int PlayerConvertInt, string PlayerConvertString);
-void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, string FourthLine, int Color1, int Color2, int Color3, int Color4);
+void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, string FourthLine, string FifthLine, int Color1, int Color2, int Color3, int Color4, int Color5);
 int TalkingKnightQuest(string ThisIS, string ThisIS2, int ThisColor);
 int TalkingOnTwoLines(string ThisIS, string ThisIS2, int ThisColor);
 int TalkingOnFourLines(string ThisIS, string ThisIS2, string ThisIS3, string ThisIS4, int ThisColor);
 int ShakingOneLine(string NAMEifAny, string ThisIS, int ThisColorTalking, int ThisColorText, int Number1, int Number2);
 int TextToScreen(SCREEN WhatTheScreenIs);
 int ForDragon();
-void TheAffectsForAttackButNotEndturn();
 void PlayerAndClassSetUp(int ThePlayerNumber);
 void BarsForPlayers(int PlayerNumber, int ThePower);
 void DividingUpTheScreenBoss(int x);
@@ -1243,11 +1242,8 @@ int main() {
 	gr_Start(GrDriver, GrMode, ErrorCode);
 
 	/* USEFUL
-
 	int CATCH = getch();
-
 	cout << CATCH;
-
 	*/
 
 	maxY = getmaxy();
@@ -1703,47 +1699,47 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 	case 2: if (Player2.Class == "Knight") {
 
-			Player2.saveHealthTurn = true;
+		Player2.saveHealthTurn = true;
 
-			Player2.Health = Player2.SaveHealth;
+		Player2.Health = Player2.SaveHealth;
 
-		}
+	}
 			else if (Player2.Class == "Archer") {
-			switch (AttackWho) { //Multiple Arrows
+				switch (AttackWho) { //Multiple Arrows
 
-			case 2: Player2.HealthInt = Player2.HealthInt - (2 * Player1.AttackInt); Player2.Health = to_string(Player2.HealthInt); break;
-			case 3: Player3.HealthInt = Player3.HealthInt - (2 * Player1.AttackInt); Player3.Health = to_string(Player3.HealthInt); break;
-			case 4: Player4.HealthInt = Player4.HealthInt - (2 * Player1.AttackInt); Player4.Health = to_string(Player4.HealthInt); break;
-			case 1:
-			case 5: Enemy.HealthInt = Enemy.HealthInt - (2 * Player2.AttackInt); Enemy.Health = to_string(Enemy.HealthInt); break;
+				case 2: Player2.HealthInt = Player2.HealthInt - (2 * Player1.AttackInt); Player2.Health = to_string(Player2.HealthInt); break;
+				case 3: Player3.HealthInt = Player3.HealthInt - (2 * Player1.AttackInt); Player3.Health = to_string(Player3.HealthInt); break;
+				case 4: Player4.HealthInt = Player4.HealthInt - (2 * Player1.AttackInt); Player4.Health = to_string(Player4.HealthInt); break;
+				case 1:
+				case 5: Enemy.HealthInt = Enemy.HealthInt - (2 * Player2.AttackInt); Enemy.Health = to_string(Enemy.HealthInt); break;
+				}
 			}
-		}
 			else if (Player2.Class == "Wizard") { // Fire Blast
-			switch (AttackWho) {
-			case 2: Player2.HealthInt = Player2.HealthInt - Player1.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
-			case 3: Player3.HealthInt = Player3.HealthInt - Player1.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
-			case 4: Player4.HealthInt = Player4.HealthInt - Player1.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
-			case 1:
-			case 5: Enemy.HealthInt = Enemy.HealthInt - Player2.AttackInt; Enemy.Health = to_string(Enemy.HealthInt);
-				Enemy.PowerInt -= 1; Enemy.Power = to_string(Enemy.PowerInt);
-				break;
-			}
-		}
-			else if (Player2.Class == "Priest") {
-			switch (AttackWho) { // Healing all 
-
-			case 2:
-			case 3:
-			case 4:
-			case 1:
-			case 5: if (Player1.Alive == true) { Player1.SaveHealth += 2; Player1.HealthInt += 2; Player1.Health = to_string(Player1.HealthInt); }
-					if (Player2.Alive == true) { Player2.SaveHealth += 2; Player2.HealthInt += 2; Player2.Health = to_string(Player2.HealthInt); }
-					if (Player3.Alive == true) { Player3.SaveHealth += 2; Player3.HealthInt += 2; Player3.Health = to_string(Player3.HealthInt); }
-					if (Player4.Alive == true) { Player4.SaveHealth += 2; Player4.HealthInt += 2; Player4.Health = to_string(Player4.HealthInt); }
+				switch (AttackWho) {
+				case 2: Player2.HealthInt = Player2.HealthInt - Player1.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
+				case 3: Player3.HealthInt = Player3.HealthInt - Player1.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
+				case 4: Player4.HealthInt = Player4.HealthInt - Player1.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
+				case 1:
+				case 5: Enemy.HealthInt = Enemy.HealthInt - Player2.AttackInt; Enemy.Health = to_string(Enemy.HealthInt);
+					Enemy.PowerInt -= 1; Enemy.Power = to_string(Enemy.PowerInt);
 					break;
-
+				}
 			}
-		}
+			else if (Player2.Class == "Priest") {
+				switch (AttackWho) { // Healing all 
+
+				case 2:
+				case 3:
+				case 4:
+				case 1:
+				case 5: if (Player1.Alive == true) { Player1.SaveHealth += 2; Player1.HealthInt += 2; Player1.Health = to_string(Player1.HealthInt); }
+						if (Player2.Alive == true) { Player2.SaveHealth += 2; Player2.HealthInt += 2; Player2.Health = to_string(Player2.HealthInt); }
+						if (Player3.Alive == true) { Player3.SaveHealth += 2; Player3.HealthInt += 2; Player3.Health = to_string(Player3.HealthInt); }
+						if (Player4.Alive == true) { Player4.SaveHealth += 2; Player4.HealthInt += 2; Player4.Health = to_string(Player4.HealthInt); }
+						break;
+
+				}
+			}
 			break;
 
 	case 3:
@@ -1809,79 +1805,79 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 	case 4:
 
-				if (Player2.Class == "Knight") {
+		if (Player2.Class == "Knight") {
 
-					switch (AttackWho) { //LargeShield
+			switch (AttackWho) { //LargeShield
 
-					case 1:
+			case 1:
 
-					case 2:
+			case 2:
 
-					case 3:
+			case 3:
 
-					case 4: Player2.saveHealthTurn = true;
+			case 4: Player2.saveHealthTurn = true;
 
-						Player2.HealthInt += 5;
+				Player2.HealthInt += 5;
 
-						Player2.Health = to_string(Player2.HealthInt);
+				Player2.Health = to_string(Player2.HealthInt);
 
-						Player2.Health = Player2.SaveHealth;  break;
+				Player2.Health = Player2.SaveHealth;  break;
 
-					case 5:
+			case 5:
 
-						Player1.saveHealthTurn = true; Player2.saveHealthTurn = true; Player3.saveHealthTurn = true; Player4.saveHealthTurn = true;
+				Player1.saveHealthTurn = true; Player2.saveHealthTurn = true; Player3.saveHealthTurn = true; Player4.saveHealthTurn = true;
 
-						Player1.HealthInt += 3; Player2.HealthInt += 3; Player3.HealthInt += 3; Player4.HealthInt += 3;
+				Player1.HealthInt += 3; Player2.HealthInt += 3; Player3.HealthInt += 3; Player4.HealthInt += 3;
 
-						Player1.Health = to_string(Player1.HealthInt); Player2.Health = to_string(Player2.HealthInt); Player3.Health = to_string(Player3.HealthInt); Player4.Health = to_string(Player4.HealthInt);
+				Player1.Health = to_string(Player1.HealthInt); Player2.Health = to_string(Player2.HealthInt); Player3.Health = to_string(Player3.HealthInt); Player4.Health = to_string(Player4.HealthInt);
 
-						Player1.Health = Player1.SaveHealth; Player2.Health = Player2.SaveHealth; Player3.Health = Player3.SaveHealth; Player4.Health = Player4.SaveHealth; break;
+				Player1.Health = Player1.SaveHealth; Player2.Health = Player2.SaveHealth; Player3.Health = Player3.SaveHealth; Player4.Health = Player4.SaveHealth; break;
 
-					}
+			}
 
-				}
-				else if (Player2.Class == "Archer") {
-					switch (AttackWho) { // Dragon Trip
+		}
+		else if (Player2.Class == "Archer") {
+			switch (AttackWho) { // Dragon Trip
 
-					case 2:
-					case 3:
-					case 4:
-					case 1:
-					case 5: Enemy.CannotAttack = true;
-						Enemy.HealthInt -= (Player2.AttackInt / 2);
-						break;
-					}
-				}
-				else if (Player2.Class == "Wizard") { // Shadow Reach
-					switch (AttackWho) {
-					case 2: Player2.HealthInt = Player2.HealthInt - Player1.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
-					case 3: Player3.HealthInt = Player3.HealthInt - Player1.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
-					case 4: Player4.HealthInt = Player4.HealthInt - Player1.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
-					case 1:
-					case 5: Enemy.PowerInt -= 1; Enemy.Power = to_string(Enemy.PowerInt);
-						Enemy.AttackInt -= 1;
-						Enemy.HealthInt -= 3; Enemy.Health = to_string(Enemy.HealthInt);
-						break;
-					}
-				}
-				else if (Player2.Class == "Priest") {
-					switch (AttackWho) { // Divine Deed
-
-					case 2:
-					case 3:
-					case 4:
-					case 1:
-					case 5: Enemy.HealthInt -= (Player1.AttackInt + Player2.AttackInt + Player3.AttackInt + Player4.AttackInt) / 6;
-						if (Player1.Alive == true) { Player1.SaveHealth += 3; Player1.HealthInt += 3; Player1.Health = to_string(Player1.HealthInt); }
-						if (Player2.Alive == true) { Player2.SaveHealth += 3; Player2.HealthInt += 3; Player2.Health = to_string(Player2.HealthInt); }
-						if (Player3.Alive == true) { Player3.SaveHealth += 3; Player3.HealthInt += 3; Player3.Health = to_string(Player3.HealthInt); }
-						if (Player4.Alive == true) { Player4.SaveHealth += 3; Player4.HealthInt += 3; Player4.Health = to_string(Player4.HealthInt); }
-						break;
-
-					}
-
-				}
+			case 2:
+			case 3:
+			case 4:
+			case 1:
+			case 5: Enemy.CannotAttack = true;
+				Enemy.HealthInt -= (Player2.AttackInt / 2);
 				break;
+			}
+		}
+		else if (Player2.Class == "Wizard") { // Shadow Reach
+			switch (AttackWho) {
+			case 2: Player2.HealthInt = Player2.HealthInt - Player1.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
+			case 3: Player3.HealthInt = Player3.HealthInt - Player1.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
+			case 4: Player4.HealthInt = Player4.HealthInt - Player1.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
+			case 1:
+			case 5: Enemy.PowerInt -= 1; Enemy.Power = to_string(Enemy.PowerInt);
+				Enemy.AttackInt -= 1;
+				Enemy.HealthInt -= 3; Enemy.Health = to_string(Enemy.HealthInt);
+				break;
+			}
+		}
+		else if (Player2.Class == "Priest") {
+			switch (AttackWho) { // Divine Deed
+
+			case 2:
+			case 3:
+			case 4:
+			case 1:
+			case 5: Enemy.HealthInt -= (Player1.AttackInt + Player2.AttackInt + Player3.AttackInt + Player4.AttackInt) / 6;
+				if (Player1.Alive == true) { Player1.SaveHealth += 3; Player1.HealthInt += 3; Player1.Health = to_string(Player1.HealthInt); }
+				if (Player2.Alive == true) { Player2.SaveHealth += 3; Player2.HealthInt += 3; Player2.Health = to_string(Player2.HealthInt); }
+				if (Player3.Alive == true) { Player3.SaveHealth += 3; Player3.HealthInt += 3; Player3.Health = to_string(Player3.HealthInt); }
+				if (Player4.Alive == true) { Player4.SaveHealth += 3; Player4.HealthInt += 3; Player4.Health = to_string(Player4.HealthInt); }
+				break;
+
+			}
+
+		}
+		break;
 
 	case 5:
 
@@ -2012,65 +2008,65 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 			}
 			break;
 
-	case 3: 
+	case 3:
 		if (Player3.Class == "Knight") {
 
-		switch (AttackWho) { // Warcry
+			switch (AttackWho) { // Warcry
 
-		case 1:
+			case 1:
 
-		case 2:
+			case 2:
 
-		case 3:
+			case 3:
 
-		case 4: Player1.AttackInt += 3; Player1.Attack = to_string(Player1.AttackInt); break;
+			case 4: Player1.AttackInt += 3; Player1.Attack = to_string(Player1.AttackInt); break;
 
-		case 5:
+			case 5:
 
-			Player1.AttackInt += 1; Player1.Attack = to_string(Player1.AttackInt);
+				Player1.AttackInt += 1; Player1.Attack = to_string(Player1.AttackInt);
 
-			Player2.AttackInt += 1; Player2.Attack = to_string(Player2.AttackInt);
+				Player2.AttackInt += 1; Player2.Attack = to_string(Player2.AttackInt);
 
-			Player3.AttackInt += 1; Player3.Attack = to_string(Player3.AttackInt);
+				Player3.AttackInt += 1; Player3.Attack = to_string(Player3.AttackInt);
 
-			Player4.AttackInt += 1; Player4.Attack = to_string(Player4.AttackInt); break;
+				Player4.AttackInt += 1; Player4.Attack = to_string(Player4.AttackInt); break;
+
+			}
 
 		}
+		else if (Player3.Class == "Archer") {
+			switch (AttackWho) { // Caging the Beast
 
-	}
-			else if (Player3.Class == "Archer") {
-				switch (AttackWho) { // Caging the Beast
+			case 2:
+			case 3:
+			case 4:
+			case 1:
+			case 5: Enemy.CannotAttack = true; break;
+			}
+		}
+		else if (Player3.Class == "Wizard") { // Lightning Bolt
+			switch (AttackWho) {
+			case 2: Player2.HealthInt = Player2.HealthInt - Player1.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
+			case 3: Player3.HealthInt = Player3.HealthInt - Player1.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
+			case 4: Player4.HealthInt = Player4.HealthInt - Player1.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
+			case 1:
+			case 5: Enemy.PowerInt -= 1; Enemy.Power = to_string(Enemy.PowerInt);
+				Enemy.AttackInt -= 1;
+				break;
+			}
+		}
+		else if (Player3.Class == "Priest") {
+			switch (AttackWho) { // Spirit Call
 
-				case 2:
-				case 3:
-				case 4:
-				case 1:
-				case 5: Enemy.CannotAttack = true; break;
-				}
+			case 2:
+			case 3:
+			case 4:
+			case 1:
+			case 5: Enemy.HealthInt -= (Player1.AttackInt + Player2.AttackInt + Player3.AttackInt + Player4.AttackInt) / 4;
+				break;
 			}
-			else if (Player3.Class == "Wizard") { // Lightning Bolt
-				switch (AttackWho) {
-				case 2: Player2.HealthInt = Player2.HealthInt - Player1.AttackInt; Player2.Health = to_string(Player2.HealthInt); break;
-				case 3: Player3.HealthInt = Player3.HealthInt - Player1.AttackInt; Player3.Health = to_string(Player3.HealthInt); break;
-				case 4: Player4.HealthInt = Player4.HealthInt - Player1.AttackInt; Player4.Health = to_string(Player4.HealthInt); break;
-				case 1:
-				case 5: Enemy.PowerInt -= 1; Enemy.Power = to_string(Enemy.PowerInt);
-					Enemy.AttackInt -= 1;
-					break;
-				}
-			}
-			else if (Player3.Class == "Priest") {
-				switch (AttackWho) { // Spirit Call
-
-				case 2:
-				case 3:
-				case 4:
-				case 1:
-				case 5: Enemy.HealthInt -= (Player1.AttackInt + Player2.AttackInt + Player3.AttackInt + Player4.AttackInt) / 4;
-					break;
-				}
-			}
-			break;
+		}
+		break;
 
 	case 4:
 		if (Player3.Class == "Knight") {
@@ -2146,7 +2142,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 		}
 		break;
-	
+
 	case 5: if (Player3.Class == "Knight") {
 
 		switch (AttackWho) { // Swift Slash
@@ -3008,10 +3004,11 @@ int theConversionFromIntToString(int PlayerConvertInt, string PlayerConvertStrin
 
 }
 
-void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, string FourthLine, int Color1, int Color2, int Color3, int Color4) {
-	
+void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, string FourthLine, string FifthLine, int Color1, int Color2, int Color3, int Color4, int Color5) {
+
 
 	int MaxX18 = maxX / 6 * 4; // 2/3 of the screen
+	int MaxX19 = maxX / 6 * 5; // 5/6 of the screen
 	int MaxY13 = maxY * 8 / 15;
 	int WIDTH1;
 	int HEIGHT1;
@@ -3019,33 +3016,42 @@ void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, st
 
 
 	settextstyle(1, 0, 3);
-	moveto((MaxX18), (MaxY13 + (maxX / 100)));
+	moveto((MaxX19), (MaxY13 + (maxX / 100)));
 	FreeWords = FirstLine;
-	WIDTH1 = textwidth(FreeWords.c_str);
-	HEIGHT1 = textheight(FreeWords.c_str);
+	WIDTH1 = textwidth(FreeWords.c_str());
+	HEIGHT1 = textheight(FreeWords.c_str());
 	setcolor(Color1);
-	moverel(-(WIDTH1 / 2), HEIGHT1);
-	outtext(FreeWords.c_str);
+	moverel(-(WIDTH1 / 2), HEIGHT1 * 2);
+	outtext(FreeWords.c_str());
+	moverel(-(WIDTH1/2), (HEIGHT1 / 2));
 
 	FreeWords = SecondLine;
-	WIDTH1 = textwidth(FreeWords.c_str);
+	WIDTH1 = textwidth(FreeWords.c_str());
 	setcolor(Color2);
 	moverel(-(WIDTH1 / 2), HEIGHT1);
-	outtext(FreeWords.c_str);
+	outtext(FreeWords.c_str());
+	moverel(-(WIDTH1 / 2), (HEIGHT1 / 2));
 
 	FreeWords = ThirdLine;
-	WIDTH1 = textwidth(FreeWords.c_str);
+	WIDTH1 = textwidth(FreeWords.c_str());
 	setcolor(Color3);
 	moverel(-(WIDTH1 / 2), HEIGHT1);
-	outtext(FreeWords.c_str);
+	outtext(FreeWords.c_str());
+	moverel(-(WIDTH1 / 2), (HEIGHT1 / 2));
 
 	FreeWords = FourthLine;
-	WIDTH1 = textwidth(FreeWords.c_str);
+	WIDTH1 = textwidth(FreeWords.c_str());
 	setcolor(Color4);
 	moverel(-(WIDTH1 / 2), HEIGHT1);
-	outtext(FreeWords.c_str);
+	outtext(FreeWords.c_str());
+	moverel(-(WIDTH1 / 2), (HEIGHT1 / 2));
+
+	FreeWords = FifthLine;
+	WIDTH1 = textwidth(FreeWords.c_str());
+	setcolor(Color5);
+	moverel(-(WIDTH1 / 2), HEIGHT1);
+	outtext(FreeWords.c_str());
 	setcolor(15);
-	
 }
 
 int TalkingKnightQuest(string ThisIS, string ThisIS2, int ThisColor) {
@@ -4405,7 +4411,7 @@ void DividingUpTheScreenBoss(int x) {
 	}
 #pragma region BoxSetup
 
-	//TalkingInSmallBox(Player1.Name, Player2.Name, Player3.Name, Player4.Name, player1Color, player2Color, player3Color, player4Color);
+	TalkingInSmallBox("The Dragon Gives", "A Powerful Roar", "(This Is A Test)", "", "Player4: -5 ATK ", 15, 15, 15, 15, player3Color);
 
 	setlinestyle(1, 2, 4);
 	int Dialouge = (((maxX / 100)) - (MaxX8 - (maxX / 100)) / 25);
@@ -4422,7 +4428,7 @@ void DividingUpTheScreenBoss(int x) {
 	rectangle(0, MaxY3, maxX, MaxY4); // Main Rectangle
 	rectangle((maxX / 100), (MaxY3 + (maxX / 100)), (MaxX8 - (maxX / 100)), (MaxY4 - (maxX / 100))); // Far Box to the Left(inside the main one)
 
-	if (maxX == 1500) {
+	if (maxX <= 1500) {
 		settextstyle(1, 0, 3);
 		setcolor(y);
 		moveto((MaxX / 100) + (WIDTH / 2), (MaxY3 + (maxX / 100)) - Dialouge); outtext(AttackWord.c_str());
@@ -4585,7 +4591,6 @@ void NameInput() {
 
 }
 
-void TheAffectsForAttackButNotEndturn() {}
 void EndTurnAffects(bool Endturn, int Player) {
 
 	// End turn stuff: In Order: Power, Endturn Damage
