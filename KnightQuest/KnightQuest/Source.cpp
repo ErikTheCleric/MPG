@@ -3014,8 +3014,11 @@ void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, st
 	int HEIGHT1;
 	string FreeWords;
 
+	if (maxX <= 1500) {
+		settextstyle(1, 0, 3);
 
-	settextstyle(1, 0, 3);
+	}
+	else { settextstyle(6,0,4); } ///  STOP HERE
 	moveto((MaxX19), (MaxY13 + (maxX / 100)));
 	FreeWords = FirstLine;
 	WIDTH1 = textwidth(FreeWords.c_str());
@@ -4431,7 +4434,9 @@ void DividingUpTheScreenBoss(int x) {
 	if (maxX <= 1500) {
 		settextstyle(1, 0, 3);
 		setcolor(y);
-		moveto((MaxX / 100) + (WIDTH / 2), (MaxY3 + (maxX / 100)) - Dialouge); outtext(AttackWord.c_str());
+		moveto((MaxX / 3), (MaxY3 + (maxX / 100)) - Dialouge);
+		moverel((WIDTH / 2), 0);
+		outtext(AttackWord.c_str());
 		setcolor(15);
 		settextstyle(1, 0, 2);
 		moveto((MaxX5 * -1) + (WIDTH / 1.50), 3 * (maxY / 4) + (Dialouge * 2)); outtext(Generic.AtkStr1.c_str());
@@ -4445,16 +4450,15 @@ void DividingUpTheScreenBoss(int x) {
 	else {
 
 		setcolor(y);
-
 		settextstyle(1, 0, 3);
 
 		WIDTH = textwidth(AttackWord.c_str());
 
-		moveto((MaxX / 100) + (WIDTH / 2), (MaxY3 + (maxX / 100)) - Dialouge); outtext(AttackWord.c_str());
-
+		moveto((MaxX / 3), (MaxY3 + (maxX / 100)) - Dialouge); 
+		moverel((WIDTH / 2), 0);
+		outtext(AttackWord.c_str());
 		setcolor(15);
-
-		settextstyle(1, 0, 2);
+		settextstyle(1, 0, 3);
 
 		moveto((MaxX5 * -1) + (WIDTH / 1.0), 3 * (maxY / 4) + (Dialouge * 2)); outtext(Generic.AtkStr1.c_str());
 
@@ -4467,7 +4471,6 @@ void DividingUpTheScreenBoss(int x) {
 		moveto((MaxX5 * -1) + (WIDTH / 1.0), 3 * (maxY / 4) - (Dialouge * 2)); outtext(Generic.AtkStr5.c_str());
 
 		moveto((MaxX5 * -1) + (WIDTH * 1.95), 3 * (maxY / 4) - (Dialouge * 2)); outtext(Wait.c_str());
-
 
 
 	}
