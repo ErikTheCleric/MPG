@@ -42,10 +42,10 @@
 // Make a function that has a thing with all the affects  
 // Player 2 Attacks done 
 //		> Get the Player 3/4 Attacks   --    (Done) sort of, Don't forget to add after affects 
-//	    > Get the Enemy Attacks        --    ()
+//	    > Get the Enemy Attacks        --    (ALMOST DONE)
 //		> Have a Working Name system
 //		> Have the After affects
-//		> Have that little text box off to the side   --   (Done)
+//		> Have that little text box off to the side   --   (NOT EVEN CLOSE)
 //      > We are very close, one week left
 
 // Main Obj: Make the Attacks work and Deaths work. I'm very proud of the progress with the graphics, now focus on making it all work
@@ -1219,6 +1219,7 @@ int maxX, maxY, penColor, Sppeedd;
 int SmallMovementVar = maxX / 111;
 int ForTheTellingText;
 
+void TheTextExamplifer(int ForTellingText);
 void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho);
 int AttackTargetAndAttack(int PLAYERS);
 int theConversionFromIntToString(int PlayerConvertInt, string PlayerConvertString);
@@ -1280,20 +1281,21 @@ int main() {
 			cleardevice();
 
 			while (GameStillGoing) {
-
-				TheTextExamplifer(0);
+			
 				DividingUpTheScreenBoss(TheNumberS); // Screen Check
-				AttackTargetAndAttack(TheNumberS);
 				TheTextExamplifer(ForTheTellingText);
+				AttackTargetAndAttack(TheNumberS);
 				DividingUpTheScreenBoss(TheNumberS); // Givin to show the after of the attack
 													 // Add a getch()? eh...
+				TheTextExamplifer(ForTheTellingText);
+				//getch();
 				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, 1, forTrueFalsePower, TheNumberS);
 				TheNumberS++;
 
-				Sleep(250);
-				if (TheNumberS == 2) { TheNumberS = 5; forTrueFalsePower = false; }
-				if (TheNumberS == 6) { TheNumberS = 1; forTrueFalsePower = true; }
-				getch();
+				Sleep(2250);
+				if (TheNumberS == 2) { TheNumberS = 5; forTrueFalsePower = false; ForTheTellingText = 0; }
+				if (TheNumberS == 6) { TheNumberS = 1; forTrueFalsePower = true; ForTheTellingText = 22; }
+				
 			}
 
 		}
@@ -1315,16 +1317,20 @@ int main() {
 			}
 			while (GameStillGoing) {
 
-				TheTextExamplifer(0);
+				
 				DividingUpTheScreenBoss(TheNumberS); // Screen Check
-				AttackTargetAndAttack(TheNumberS);
 				TheTextExamplifer(ForTheTellingText);
+				AttackTargetAndAttack(TheNumberS);
 				DividingUpTheScreenBoss(TheNumberS);
+				TheTextExamplifer(ForTheTellingText);
 				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, forTrueFalsePower, TheNumberS);
 				TheNumberS++;
 
-				Sleep(250);
-				if (TheNumberS == 6) { TheNumberS = 1; forTrueFalsePower = false; }
+				Sleep(2250);
+				if (TheNumberS == 6) { TheNumberS = 1; forTrueFalsePower = false; ForTheTellingText = 22; }
+				if (TheNumberS == 2) { ForTheTellingText == 23; }
+				if (TheNumberS == 3) { ForTheTellingText == 24; }
+				if (TheNumberS == 4) { ForTheTellingText == 25; }
 				if (TheNumberS == 5) { forTrueFalsePower = true; }
 
 			}
@@ -1372,6 +1378,8 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 	case 1: switch (AttackMoveNumber) {
 
+	case 0: ForTheTellingText = 21; break;
+
 	case 1:
 
 		if (Player1.Class == "Knight" || Player1.Class == "Archer" || Player1.Class == "Wizard" || Player1.Class == "Priest" || Player1.Class == "Cavalier") {
@@ -1386,7 +1394,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 			case 1:
 
-			case 5: Enemy.HealthInt = Enemy.HealthInt - Player1.AttackInt; Enemy.Health = to_string(Enemy.HealthInt);
+			case 5: Enemy.HealthInt = Enemy.HealthInt - Player1.AttackInt; Enemy.Health = to_string(Enemy.HealthInt); ForTheTellingText = 19;
 
 				break;
 
@@ -1688,6 +1696,8 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 	case 2: switch (AttackMoveNumber) {
 
+	case 0: ForTheTellingText = 21; break;
+
 	case 1: if (Player2.Class == "Knight" || Player2.Class == "Archer" || Player2.Class == "Wizard" || Player2.Class == "Priest" || Player2.Class == "Juggernaught") {
 
 		switch (AttackWho) { // Swift Slash
@@ -1954,6 +1964,8 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 	case 3: switch (AttackMoveNumber) {
 
+	case 0: ForTheTellingText = 21; break;
+
 	case 1: if (Player3.Class == "Knight" || Player3.Class == "Archer" || Player3.Class == "Wizard" || Player3.Class == "Priest" || Player3.Class == "Blood Mage") {
 
 		switch (AttackWho) { // Swift Slash
@@ -2216,6 +2228,8 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	} break; // Player3 (Done)
 
 	case 4: switch (AttackMoveNumber) {
+
+	case 0: ForTheTellingText = 21; break;
 
 	case 1:
 
@@ -2509,7 +2523,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 2:
 
 		if (Enemy.Class == "Goblin King") {
-			ForTheTellingText = 1;
+			
 			switch (AttackWho) { // Take no damage
 
 			case 1:
@@ -2518,7 +2532,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 			case 3:
 
-			case 4: Enemy.SaveHealth = Enemy.HealthInt; Enemy.saveHealthTurn = true; break;
+			case 4: Enemy.SaveHealth = Enemy.HealthInt; Enemy.saveHealthTurn = true; ForTheTellingText = 1; break;
 
 				break;
 
@@ -2547,16 +2561,16 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 3:
 
 		if (Enemy.Class == "Goblin King") {
-			ForTheTellingText = 6;
+			
 			switch (AttackWho) {
 
-			case 1: Player1.HealthInt = Player1.HealthInt - (Enemy.AttackInt + 1); Player1.Health = to_string(Player1.HealthInt); break;
+			case 1: Player1.HealthInt = Player1.HealthInt - (Enemy.AttackInt + 1); Player1.Health = to_string(Player1.HealthInt); ForTheTellingText = 6; break;
 
-			case 2: Player2.HealthInt = Player2.HealthInt - (Enemy.AttackInt + 1); Player2.Health = to_string(Player2.HealthInt); break;
+			case 2: Player2.HealthInt = Player2.HealthInt - (Enemy.AttackInt + 1); Player2.Health = to_string(Player2.HealthInt); ForTheTellingText = 6; break;
 
-			case 3: Player3.HealthInt = Player3.HealthInt - (Enemy.AttackInt + 1); Player3.Health = to_string(Player3.HealthInt); break;
+			case 3: Player3.HealthInt = Player3.HealthInt - (Enemy.AttackInt + 1); Player3.Health = to_string(Player3.HealthInt); ForTheTellingText = 6; break;
 
-			case 4: Player4.HealthInt = Player4.HealthInt - (Enemy.AttackInt + 1); Player4.Health = to_string(Player4.HealthInt); break;
+			case 4: Player4.HealthInt = Player4.HealthInt - (Enemy.AttackInt + 1); Player4.Health = to_string(Player4.HealthInt); ForTheTellingText = 6; break;
 
 			}
 
@@ -2580,7 +2594,6 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 	case 4:
 
 		if (Enemy.Class == "Goblin King") { // Drinking Ale, replenish life
-			ForTheTellingText = 8;
 			switch (AttackWho) {
 
 			case 1:
@@ -2589,7 +2602,7 @@ void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho) {
 
 			case 3:
 
-			case 4: Enemy.HealthInt = Enemy.HealthInt + 4; Enemy.Health = to_string(Enemy.HealthInt); break;
+			case 4: Enemy.HealthInt = Enemy.HealthInt + 4; Enemy.Health = to_string(Enemy.HealthInt); ForTheTellingText = 8; break;
 
 			}
 
@@ -3140,8 +3153,14 @@ void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, st
 		case 15: TalkingInSmallBox("The Enemies' Mighty", "Strength overpowers", Player2.Name, "", "Player2: -HP", 15, 15, player2Color, 15, enemyColor); break;
 		case 16: TalkingInSmallBox("The Enemies' Mighty", "Strength overpowers", Player3.Name, "", "Player3: -HP", 15, 15, player3Color, 15, enemyColor); break;
 		case 17: TalkingInSmallBox("The Enemies' Mighty", "Strength overpowers", Player4.Name, "", "Player4: -HP", 15, 15, player4Color, 15, enemyColor); break;
-		case 18: TalkingInSmallBox("", "The Beast takes", "a moment to rest...", "", "", 15, 15, 15, 15, 15); break;
-		
+		case 18: TalkingInSmallBox(" ", "The Beast takes", "a moment to rest...", " ", " ", 15, 15, 15, 15, 15); break;
+		case 19: TalkingInSmallBox("The Foe reals back,", "and you begin to", "realize you may have", "a chance...", "Enemy: -HP", 15, 15, 15, 15, enemyColor); break;
+		case 20: TalkingInSmallBox("The Arrows Fly", "through the air.", "Some miss, but the", "majority hit.", "Enemy: -HP", 15, 15, 15, 15, enemyColor); break;
+		case 21: TalkingInSmallBox("", "You hold", "back to regain", "your footing", "", 15, 15, 15, 15, 15); break;
+		case 22: TalkingInSmallBox("It's Your Turn", Player1.Name, "", "", "", 15, player1Color, 14, 14, 14); break;
+		case 23: TalkingInSmallBox("It's Your Turn", Player2.Name, "", "", "", 15, player2Color, 14, 14, 14); break;
+		case 24: TalkingInSmallBox("It's Your Turn", Player3.Name, "", "", "", 15, player3Color, 14, 14, 14); break;
+		case 25: TalkingInSmallBox("It's Your Turn", Player4.Name, "", "", "", 15, player4Color, 14, 14, 14); break;
 		}
 	}
 int TalkingKnightQuest(string ThisIS, string ThisIS2, int ThisColor) {
@@ -3772,7 +3791,7 @@ void DividingUpTheScreenBoss(int x) {
 	int WIDTH;
 
 	// Ment for dividing up the screen into the parts that I need
-	setlinestyle(1, 2, 0);
+	/*setlinestyle(1, 2, 0);
 	setcolor(15); // Accros Screen
 	line(0, 0, maxX, maxY);
 
@@ -3800,7 +3819,7 @@ void DividingUpTheScreenBoss(int x) {
 
 	setcolor(2); // Division of Talking Screen Must be inbetween the two of these
 	line(0, MaxY3, maxX, MaxY3);
-	line(0, MaxY4, maxX, MaxY4);
+	line(0, MaxY4, maxX, MaxY4);*/
 
 #pragma endregion 
 
