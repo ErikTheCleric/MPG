@@ -1328,9 +1328,9 @@ int main() {
 
 				Sleep(2250);
 				if (TheNumberS == 6) { TheNumberS = 1; forTrueFalsePower = false; ForTheTellingText = 22; }
-				if (TheNumberS == 2) { ForTheTellingText == 23; }
-				if (TheNumberS == 3) { ForTheTellingText == 24; }
-				if (TheNumberS == 4) { ForTheTellingText == 25; }
+				if (TheNumberS == 2) { ForTheTellingText = 23; }
+				if (TheNumberS == 3) { ForTheTellingText = 24; }
+				if (TheNumberS == 4) { ForTheTellingText = 25; }
 				if (TheNumberS == 5) { forTrueFalsePower = true; }
 
 			}
