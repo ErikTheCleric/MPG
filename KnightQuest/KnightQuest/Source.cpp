@@ -1206,6 +1206,8 @@ string Sample = "Sample", AttackWord = "Choice.) Attack - Power Cost", Wait = "0
 string GoblinKingWord = "GOBLIN KING", DragonWord = "DRAGON", LichWord = "LICH", GladiatorWord = "GLADIATOR PIT", GAMEOVER = "GAME OVER", YOUWIN = "YOU WIN", THEWINNERIS = "THE WINNER IS ";
 string FillerString;
 string FreeClass;
+string GlobalLetter;
+string NameOneBefore;
 
 bool KnightToDragon = false;
 bool GameStillGoing = true;
@@ -1220,6 +1222,8 @@ int maxX, maxY, penColor, Sppeedd;
 int SmallMovementVar = maxX / 111;
 int ForTheTellingText;
 
+void ScreenNameHelp(int Cap);
+void ScreenNames();
 void TheTextExamplifer(int ForTellingText);
 void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho);
 int AttackTargetAndAttack(int PLAYERS);
@@ -1248,10 +1252,12 @@ int main() {
 
 	gr_Start(GrDriver, GrMode, ErrorCode);
 
-	/* USEFUL
-	int CATCH = getch();
-	cout << CATCH;
-	*/
+	// USEFUL
+	//int CATCH = getch();
+	//cout << CATCH;
+	//ScreenNames();
+
+	
 
 	maxY = getmaxy();
 
@@ -3080,6 +3086,165 @@ int theConversionFromIntToString(int PlayerConvertInt, string PlayerConvertStrin
 
 }
 
+void ScreenNameHelp(int Cap) {
+	switch (Cap) {
+	case 97:
+	case 65: GlobalLetter = "A"; break;
+	case 98: 
+	case 66: GlobalLetter = "B"; break;
+	case 99: 
+	case 67: GlobalLetter = "C"; break;
+	case 100: 
+	case 68: GlobalLetter = "D"; break;
+	case 101: 
+	case 69: GlobalLetter = "E"; break;
+	case 102: 
+	case 70: GlobalLetter = "F"; break;
+	case 103:
+	case 71: GlobalLetter = "G"; break;
+	case 104:
+	case 72: GlobalLetter = "H"; break;
+	case 105:
+	case 73: GlobalLetter = "I"; break;
+	case 106:
+	case 74: GlobalLetter = "J"; break;
+	case 107:
+	case 75: GlobalLetter = "K"; break;
+	case 108:
+	case 76: GlobalLetter = "L"; break;
+	case 109:
+	case 77: GlobalLetter = "M"; break;
+	case 110:
+	case 78: GlobalLetter = "N"; break;
+	case 111:
+	case 79: GlobalLetter = "O"; break;
+	case 112:
+	case 80: GlobalLetter = "P"; break;
+	case 113:
+	case 81: GlobalLetter = "Q"; break;
+	case 114:
+	case 82: GlobalLetter = "R"; break;
+	case 115:
+	case 83: GlobalLetter = "S"; break;
+	case 116:
+	case 84: GlobalLetter = "T"; break;
+	case 117:
+	case 85: GlobalLetter = "U"; break;
+	case 118:
+	case 86: GlobalLetter = "V"; break;
+	case 119:
+	case 87: GlobalLetter = "W"; break;
+	case 120:
+	case 88: GlobalLetter = "X"; break;
+	case 121:
+	case 89: GlobalLetter = "Y"; break;
+	case 122:
+	case 90: GlobalLetter = "Z"; break;
+	case 32: GlobalLetter = " "; break; // Space
+	case 8: GlobalLetter = "BK"; break; // Back
+	default: break;
+	}
+}
+void Classes() {
+	int CaptureKeyPress;
+	do {
+		CaptureKeyPress = getch();
+		switch (CaptureKeyPress) {
+		case 107:
+		case 75: FreeClass = "k"; cout << "\nKnight" << endl; break;
+		case 65:
+		case 97: FreeClass = "a"; cout << "\nArcher" << endl; break;
+		case 87:
+		case 120: FreeClass = "w"; cout << "\nWizard" << endl; break;
+		case 880:
+		case 112: FreeClass = "p"; cout << "\nPriest" << endl; break;
+		default: break;
+		} 
+	
+	}while (FreeClass != "k" && FreeClass != "w" && FreeClass != "a" && FreeClass != "p" );
+}
+void ScreenNames() {
+//Whats the name
+	int CaptureKeyPress;
+	string letterConvert;
+	if (GameType == 1) {
+		do {
+			CaptureKeyPress = getch();
+			if (CaptureKeyPress == 13) {}
+			else if (CaptureKeyPress != 13) {
+				ScreenNameHelp(CaptureKeyPress);
+				if (GlobalLetter == "BK") { Player1.Name = NameOneBefore; }
+				else {
+					NameOneBefore = Player1.Name;
+					Player1.Name = Player1.Name + GlobalLetter;
+
+				}
+			}
+		} while (CaptureKeyPress != 13);
+		cout << Player1.Name;
+	}
+	if (GameType == 2 || GameType == 3) {
+		do {
+			CaptureKeyPress = getch();
+			if (CaptureKeyPress == 13) {}
+			else if (CaptureKeyPress != 13) {
+				ScreenNameHelp(CaptureKeyPress);
+				if (GlobalLetter == "BK") { Player1.Name = NameOneBefore; }
+				else {
+					NameOneBefore = Player1.Name;
+					Player1.Name = Player1.Name + GlobalLetter;
+
+				}
+			}
+		} while (CaptureKeyPress != 13);
+		cout << Player1.Name;
+		do {
+			CaptureKeyPress = getch();
+			if (CaptureKeyPress == 13) {}
+			else if (CaptureKeyPress != 13) {
+				ScreenNameHelp(CaptureKeyPress);
+				if (GlobalLetter == "BK") { Player2.Name = NameOneBefore; }
+				else {
+					NameOneBefore = Player2.Name;
+					Player2.Name = Player2.Name + GlobalLetter;
+
+				}
+			}
+		} while (CaptureKeyPress != 13);
+		cout << Player2.Name;
+		do {
+			CaptureKeyPress = getch();
+			if (CaptureKeyPress == 13) {}
+			else if (CaptureKeyPress != 13) {
+				ScreenNameHelp(CaptureKeyPress);
+				if (GlobalLetter == "BK") { Player3.Name = NameOneBefore; }
+				else {
+					NameOneBefore = Player3.Name;
+					Player3.Name = Player3.Name + GlobalLetter;
+
+				}
+			}
+		} while (CaptureKeyPress != 13);
+		cout << Player3.Name;
+		do {
+			CaptureKeyPress = getch();
+			if (CaptureKeyPress == 13) {}
+			else if (CaptureKeyPress != 13) {
+				ScreenNameHelp(CaptureKeyPress);
+				if (GlobalLetter == "BK") { Player4.Name = NameOneBefore; }
+				else {
+					NameOneBefore = Player4.Name;
+					Player4.Name = Player4.Name + GlobalLetter;
+
+				}
+			}
+		} while (CaptureKeyPress != 13);
+		cout << Player4.Name;
+	
+	
+	
+	}
+}
 void TalkingInSmallBox(string FirstLine, string SecondLine, string ThirdLine, string FourthLine, string FifthLine, int Color1, int Color2, int Color3, int Color4, int Color5) {
 
 
@@ -4641,15 +4806,9 @@ void NameInput() {
 
 	if (GameType == 1) {
 
-		cout << "Name And Then Class Name:" << endl;
-
-		/// THIS
-
-		cin >> Player1.Name;
-
-		if (Player1.Name == "Odax") { player1Color = 10; }
-
-		cin >> FreeClass; PlayerAndClassSetUp(1);
+		ScreenNames();
+		Classes();
+		PlayerAndClassSetUp(1);
 
 		Player2.Alive = false;
 
@@ -4661,31 +4820,21 @@ void NameInput() {
 
 	if (GameType == 2 || GameType == 3) { //|| FreeVar == 4) {
 
-		cout << "Name And Then Class Name:" << endl;
+		ScreenNames();
+		Classes();
+		PlayerAndClassSetUp(1);
 
-		cin >> Player1.Name;
+		ScreenNames();
+		Classes();
+		PlayerAndClassSetUp(2);
+		
+		ScreenNames();
+		Classes();
+		PlayerAndClassSetUp(3);
 
-		if (Player1.Name == "Odax") { player1Color = 10; }
-
-		cin >> FreeClass; PlayerAndClassSetUp(1);
-
-		cin >> Player2.Name;
-
-		if (Player2.Name == "Issej") { player2Color = 6; }
-
-		cin >> FreeClass; PlayerAndClassSetUp(2);
-
-		cin >> Player3.Name;
-
-		if (Player3.Name == "Raxxis") { player3Color = 3; }
-
-		cin >> FreeClass; PlayerAndClassSetUp(3);
-
-		cin >> Player4.Name;
-
-		if (Player4.Name == "Ankilles") { player4Color = 8; }
-
-		cin >> FreeClass; PlayerAndClassSetUp(4);
+		ScreenNames();
+		Classes();
+		PlayerAndClassSetUp(4);
 
 		if (Player1.Name == "Odax", Player2.Name == "Issej", Player3.Name == "Raxxis", Player4.Name == "Ankilles") {
 
