@@ -85,6 +85,7 @@ enum SCREEN { OPENING, TITLE, GOBLINK };
 int enemyColor = 5, enemyColor2 = 0;
 int AttackSpot, ClassSpot, PlayerBeingAttackedSpot;
 
+
 struct PlayerStruct {
 	// Strings of the Game Characters (The Major Ones)
 	string Name;
