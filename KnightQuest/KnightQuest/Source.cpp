@@ -1255,9 +1255,6 @@ int main() {
 	// USEFUL
 	//int CATCH = getch();
 	//cout << CATCH;
-	//ScreenNames();
-
-	
 
 	maxY = getmaxy();
 
@@ -1314,11 +1311,9 @@ int main() {
 			{
 
 			case 2: Enemy.init(DRAGON);
-
 				break;
 
 			case 3: Enemy.init(LICH);
-
 				break;
 
 			}
@@ -1339,29 +1334,6 @@ int main() {
 				if (TheNumberS == 3) { ForTheTellingText = 24; }
 				if (TheNumberS == 4) { ForTheTellingText = 25; }
 				if (TheNumberS == 5) { forTrueFalsePower = true; }
-
-			}
-
-		}
-
-		// GameType 4 is out of order
-		if (GameType == 4) {
-
-			while (GameStillGoing) {
-
-
-
-				DividingUpTheScreenBoss(TheNumberS); // Screen Check
-
-				AttackTargetAndAttack(TheNumberS);
-
-				DeadAliveLossWin(Player1.Health, Player2.Health, Player3.Health, Player4.Health, GameType, forTrueFalsePower, TheNumberS);
-
-				TheNumberS++;
-
-				if (TheNumberS == 5) { TheNumberS = 1; forTrueFalsePower = false; }
-
-				if (TheNumberS == 4) { forTrueFalsePower = true; }
 
 			}
 
@@ -3158,12 +3130,11 @@ void Classes() {
 		case 120: FreeClass = "w"; cout << "\nWizard" << endl; break;
 		case 880:
 		case 112: FreeClass = "p"; cout << "\nPriest" << endl; break;
-		default: break;
 		} 
 	
 	}while (FreeClass != "k" && FreeClass != "w" && FreeClass != "a" && FreeClass != "p" );
 }
-void ScreenNames() {
+void ScreenNames(int PlayerTurn) {
 //Whats the name
 	int CaptureKeyPress;
 	string letterConvert;
@@ -3184,63 +3155,64 @@ void ScreenNames() {
 		cout << Player1.Name;
 	}
 	if (GameType == 2 || GameType == 3) {
-		do {
-			CaptureKeyPress = getch();
-			if (CaptureKeyPress == 13) {}
-			else if (CaptureKeyPress != 13) {
-				ScreenNameHelp(CaptureKeyPress);
-				if (GlobalLetter == "BK") { Player1.Name = NameOneBefore; }
-				else {
-					NameOneBefore = Player1.Name;
-					Player1.Name = Player1.Name + GlobalLetter;
+		switch (PlayerTurn) {
+		case 1:	do {
+				CaptureKeyPress = getch();
+				if (CaptureKeyPress == 13) {}
+				else if (CaptureKeyPress != 13) {
+					ScreenNameHelp(CaptureKeyPress);
+					if (GlobalLetter == "BK") { Player1.Name = NameOneBefore; }
+					else {
+						NameOneBefore = Player1.Name;
+						Player1.Name = Player1.Name + GlobalLetter;
 
+					}
 				}
-			}
-		} while (CaptureKeyPress != 13);
-		cout << Player1.Name;
-		do {
-			CaptureKeyPress = getch();
-			if (CaptureKeyPress == 13) {}
-			else if (CaptureKeyPress != 13) {
-				ScreenNameHelp(CaptureKeyPress);
-				if (GlobalLetter == "BK") { Player2.Name = NameOneBefore; }
-				else {
-					NameOneBefore = Player2.Name;
-					Player2.Name = Player2.Name + GlobalLetter;
+			} while (CaptureKeyPress != 13);
+			cout << Player1.Name << endl; break;
+		case 2:	do {
+				CaptureKeyPress = getch();
+				if (CaptureKeyPress == 13) {}
+				else if (CaptureKeyPress != 13) {
+					ScreenNameHelp(CaptureKeyPress);
+					if (GlobalLetter == "BK") { Player2.Name = NameOneBefore; }
+					else {
+						NameOneBefore = Player2.Name;
+						Player2.Name = Player2.Name + GlobalLetter;
 
+					}
 				}
-			}
-		} while (CaptureKeyPress != 13);
-		cout << Player2.Name;
-		do {
-			CaptureKeyPress = getch();
-			if (CaptureKeyPress == 13) {}
-			else if (CaptureKeyPress != 13) {
-				ScreenNameHelp(CaptureKeyPress);
-				if (GlobalLetter == "BK") { Player3.Name = NameOneBefore; }
-				else {
-					NameOneBefore = Player3.Name;
-					Player3.Name = Player3.Name + GlobalLetter;
+			} while (CaptureKeyPress != 13);
+			cout << Player2.Name << endl; break;
+		case 3:	do {
+				CaptureKeyPress = getch();
+				if (CaptureKeyPress == 13) {}
+				else if (CaptureKeyPress != 13) {
+					ScreenNameHelp(CaptureKeyPress);
+					if (GlobalLetter == "BK") { Player3.Name = NameOneBefore; }
+					else {
+						NameOneBefore = Player3.Name;
+						Player3.Name = Player3.Name + GlobalLetter;
 
+					}
 				}
-			}
-		} while (CaptureKeyPress != 13);
-		cout << Player3.Name;
-		do {
-			CaptureKeyPress = getch();
-			if (CaptureKeyPress == 13) {}
-			else if (CaptureKeyPress != 13) {
-				ScreenNameHelp(CaptureKeyPress);
-				if (GlobalLetter == "BK") { Player4.Name = NameOneBefore; }
-				else {
-					NameOneBefore = Player4.Name;
-					Player4.Name = Player4.Name + GlobalLetter;
+			} while (CaptureKeyPress != 13);
+			cout << Player3.Name << endl; break;
+		case 4:	do {
+				CaptureKeyPress = getch();
+				if (CaptureKeyPress == 13) {}
+				else if (CaptureKeyPress != 13) {
+					ScreenNameHelp(CaptureKeyPress);
+					if (GlobalLetter == "BK") { Player4.Name = NameOneBefore; }
+					else {
+						NameOneBefore = Player4.Name;
+						Player4.Name = Player4.Name + GlobalLetter;
 
+					}
 				}
-			}
-		} while (CaptureKeyPress != 13);
-		cout << Player4.Name;
-	
+			} while (CaptureKeyPress != 13);
+			cout << Player4.Name << endl; break;
+		}
 	
 	
 	}
@@ -4806,7 +4778,7 @@ void NameInput() {
 
 	if (GameType == 1) {
 
-		ScreenNames();
+		ScreenNames(1);
 		Classes();
 		PlayerAndClassSetUp(1);
 
@@ -4820,30 +4792,25 @@ void NameInput() {
 
 	if (GameType == 2 || GameType == 3) { //|| FreeVar == 4) {
 
-		ScreenNames();
+		ScreenNames(1);
 		Classes();
 		PlayerAndClassSetUp(1);
+		cleardevice();
 
-		ScreenNames();
+		ScreenNames(2);
 		Classes();
 		PlayerAndClassSetUp(2);
-		
-		ScreenNames();
+		cleardevice();
+
+		ScreenNames(3);
 		Classes();
 		PlayerAndClassSetUp(3);
+		cleardevice();
 
-		ScreenNames();
+		ScreenNames(4);
 		Classes();
 		PlayerAndClassSetUp(4);
-
-		if (Player1.Name == "Odax", Player2.Name == "Issej", Player3.Name == "Raxxis", Player4.Name == "Ankilles") {
-
-			cout << " THE DEFENDERS ARE HERE" << endl;
-
-		}
-
-		if (Player1.Name == "Erik" && Player1.Class == "Dragon Knight") { cout << " A DRAGON WALKS AMONG YOU, TO HIM GOES THE HONOR" << endl; }
-
+		cleardevice();
 	}
 
 
@@ -4976,6 +4943,13 @@ void DeadAliveLossWin(string Player1Health, string Player2Health, string Player3
 int ClearStats() {
 
 	//Clears all stats for the characters
+	Player1.Name = "";
+	Player2.Name = "";
+	Player3.Name = "";
+	Player4.Name = "";
+
+	FreeClass = "";
+
 	Player1.Alive = false;
 	Player2.Alive = false;
 	Player3.Alive = false;
