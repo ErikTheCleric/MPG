@@ -1223,7 +1223,7 @@ int SmallMovementVar = maxX / 111;
 int ForTheTellingText;
 
 void ScreenNameHelp(int Cap);
-void ScreenNames();
+void ScreenNames(int PlayerTurn);
 void TheTextExamplifer(int ForTellingText);
 void attackMoves(int PlayerNumber, int AttackMoveNumber, int AttackWho);
 int AttackTargetAndAttack(int PLAYERS);
