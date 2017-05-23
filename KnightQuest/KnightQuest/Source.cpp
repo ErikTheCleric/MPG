@@ -1253,8 +1253,8 @@ int main() {
 	gr_Start(GrDriver, GrMode, ErrorCode);
 
 	// USEFUL
-	//int CATCH = getch();
-	//cout << CATCH;
+//	int CATCH = getch();
+//	cout << CATCH;
 
 	maxY = getmaxy();
 
@@ -3117,9 +3117,27 @@ void ScreenNameHelp(int Cap) {
 	default: break;
 	}
 }
-void Classes() {
+void Classes(int ThisOne) {
+	cleardevice();
 	int CaptureKeyPress;
+	string ThisName;
+	int WIDTH;
+	int HIEGHT;
+	
 	do {
+		ThisName = "Pick 'K' for Knight, 'A' for Archer, 'W' for Wizard, or 'P' for Priest";
+		WIDTH = textwidth(ThisName.c_str());
+		HIEGHT = textheight(ThisName.c_str());
+		moveto((maxX / 2) - WIDTH / 2, maxY / 2);
+		outtext(ThisName.c_str());
+		moverel(-WIDTH / 2, HIEGHT);
+		switch (ThisOne) {
+		case 1: outtext(Player1.Class.c_str()); break;
+		case 2: outtext(Player2.Class.c_str()); break;
+		case 3: outtext(Player3.Class.c_str()); break;
+		case 4: outtext(Player4.Class.c_str()); break;
+		}
+		
 		CaptureKeyPress = getch();
 		switch (CaptureKeyPress) {
 		case 107:
@@ -3127,19 +3145,33 @@ void Classes() {
 		case 65:
 		case 97: FreeClass = "a"; cout << "\nArcher" << endl; break;
 		case 87:
-		case 120: FreeClass = "w"; cout << "\nWizard" << endl; break;
+		case 119: FreeClass = "w"; cout << "\nWizard" << endl; break;
 		case 880:
 		case 112: FreeClass = "p"; cout << "\nPriest" << endl; break;
 		} 
+		
 	
 	}while (FreeClass != "k" && FreeClass != "w" && FreeClass != "a" && FreeClass != "p" );
 }
 void ScreenNames(int PlayerTurn) {
 //Whats the name
+	cleardevice();
+	string ThisName;
+	int WIDTH;
+	int HEIGHT;
 	int CaptureKeyPress;
 	string letterConvert;
 	if (GameType == 1) {
 		do {
+			ThisName = "Player 1 Name:";
+			WIDTH = textwidth(ThisName.c_str());
+			HEIGHT = textheight(ThisName.c_str());
+			moveto((maxX / 2) - (WIDTH / 2), maxY / 2);
+			outtext(ThisName.c_str());
+			WIDTH = textwidth(Player1.Name.c_str());
+			moverel(-WIDTH / 2, HEIGHT);
+			outtext(Player1.Name.c_str());
+
 			CaptureKeyPress = getch();
 			if (CaptureKeyPress == 13) {}
 			else if (CaptureKeyPress != 13) {
@@ -3157,6 +3189,13 @@ void ScreenNames(int PlayerTurn) {
 	if (GameType == 2 || GameType == 3) {
 		switch (PlayerTurn) {
 		case 1:	do {
+			ThisName = "Player 1 Name:";
+			WIDTH = textwidth(ThisName.c_str());
+			HEIGHT = textheight(ThisName.c_str());
+			moveto((maxX / 2) - (WIDTH / 2), maxY / 2);
+			outtext(ThisName.c_str());
+			moverel(-WIDTH / 2, HEIGHT);
+			outtext(Player1.Name.c_str());
 				CaptureKeyPress = getch();
 				if (CaptureKeyPress == 13) {}
 				else if (CaptureKeyPress != 13) {
@@ -3171,6 +3210,13 @@ void ScreenNames(int PlayerTurn) {
 			} while (CaptureKeyPress != 13);
 			cout << Player1.Name << endl; break;
 		case 2:	do {
+			ThisName = "Player 2 Name:";
+			WIDTH = textwidth(ThisName.c_str());
+			HEIGHT = textheight(ThisName.c_str());
+			moveto((maxX / 2) - (WIDTH / 2), maxY / 2);
+			outtext(ThisName.c_str());
+			moverel(-WIDTH / 2, HEIGHT);
+			outtext(Player2.Name.c_str());
 				CaptureKeyPress = getch();
 				if (CaptureKeyPress == 13) {}
 				else if (CaptureKeyPress != 13) {
@@ -3185,6 +3231,13 @@ void ScreenNames(int PlayerTurn) {
 			} while (CaptureKeyPress != 13);
 			cout << Player2.Name << endl; break;
 		case 3:	do {
+			ThisName = "Player 3 Name:";
+			WIDTH = textwidth(ThisName.c_str());
+			HEIGHT = textheight(ThisName.c_str());
+			moveto((maxX / 2) - (WIDTH / 2), maxY / 2);
+			outtext(ThisName.c_str());
+			moverel(-WIDTH / 2, HEIGHT);
+			outtext(Player3.Name.c_str());
 				CaptureKeyPress = getch();
 				if (CaptureKeyPress == 13) {}
 				else if (CaptureKeyPress != 13) {
@@ -3199,6 +3252,13 @@ void ScreenNames(int PlayerTurn) {
 			} while (CaptureKeyPress != 13);
 			cout << Player3.Name << endl; break;
 		case 4:	do {
+			ThisName = "Player 4 Name:";
+			WIDTH = textwidth(ThisName.c_str());
+			HEIGHT = textheight(ThisName.c_str());
+			moveto((maxX / 2) - (WIDTH / 2), maxY / 2);
+			outtext(ThisName.c_str());
+			moverel(-WIDTH / 2, HEIGHT);
+			outtext(Player4.Name.c_str());
 				CaptureKeyPress = getch();
 				if (CaptureKeyPress == 13) {}
 				else if (CaptureKeyPress != 13) {
@@ -4779,7 +4839,7 @@ void NameInput() {
 	if (GameType == 1) {
 
 		ScreenNames(1);
-		Classes();
+		Classes(1);
 		PlayerAndClassSetUp(1);
 
 		Player2.Alive = false;
@@ -4793,22 +4853,22 @@ void NameInput() {
 	if (GameType == 2 || GameType == 3) { //|| FreeVar == 4) {
 
 		ScreenNames(1);
-		Classes();
+		Classes(1);
 		PlayerAndClassSetUp(1);
 		cleardevice();
 
 		ScreenNames(2);
-		Classes();
+		Classes(2);
 		PlayerAndClassSetUp(2);
 		cleardevice();
 
 		ScreenNames(3);
-		Classes();
+		Classes(3);
 		PlayerAndClassSetUp(3);
 		cleardevice();
 
 		ScreenNames(4);
-		Classes();
+		Classes(4);
 		PlayerAndClassSetUp(4);
 		cleardevice();
 	}
@@ -4947,6 +5007,11 @@ int ClearStats() {
 	Player2.Name = "";
 	Player3.Name = "";
 	Player4.Name = "";
+
+	Player1.Class = "";
+	Player2.Class = "";
+	Player3.Class = "";
+	Player4.Class = "";
 
 	FreeClass = "";
 
